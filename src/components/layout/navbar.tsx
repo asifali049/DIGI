@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { ThemeToggle } from "./theme-toggle";
+import { MobileMenu } from "./mobile-menu";
+
 import { siteConfig } from "@/constants/site";
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
@@ -31,6 +34,7 @@ export function Navbar() {
             : "border-transparent bg-transparent"
         )}
       >
+        {/* Logo */}
         <Link
           href="/"
           className="text-2xl font-black tracking-tight text-white"
@@ -39,6 +43,7 @@ export function Navbar() {
           <span className="text-violet-500">Agency</span>
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 lg:flex">
           {siteConfig.navigation.map((item) => (
             <Link
@@ -60,7 +65,16 @@ export function Navbar() {
           ))}
         </div>
 
-        <Button>Start Project</Button>
+        {/* Right Side */}
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+
+          <div className="hidden lg:block">
+            <Button>Start Project</Button>
+          </div>
+
+          <MobileMenu />
+        </div>
       </nav>
     </header>
   );

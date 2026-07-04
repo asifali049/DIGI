@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui";
+import { Button, ShimmerButton } from "@/components/ui";
 
 export function HeroButtons() {
   return (
     <div className="mt-10 flex flex-wrap gap-4">
-      <Button size="lg">
+      <ShimmerButton>
         Start Your Project
-      </Button>
+      </ShimmerButton>
 
       <Button variant="outline" size="lg">
         View Portfolio
