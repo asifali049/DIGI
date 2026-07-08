@@ -1,4 +1,9 @@
-import { Container, Section, SectionHeading } from "@/components/common";
+import {
+  Container,
+  Section,
+  SectionHeading,
+} from "@/components/common";
+
 import { TechCard } from "./tech-card";
 import { techStack } from "./tech-data";
 
@@ -13,7 +18,7 @@ export function TechStack() {
           center
         />
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8 xl:mt-16 xl:grid-cols-4">
           {techStack.map((tech) => (
             <TechCard
               key={tech.name}

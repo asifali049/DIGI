@@ -1,0 +1,63 @@
+.prose {
+  --code-bg: hsl(var(--muted));
+  --line-highlight: hsl(var(--accent) / 0.15);
+  --word-highlight: hsl(var(--primary) / 0.18);
+}
+
+.prose pre {
+  overflow-x: auto;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.prose pre code {
+  display: grid;
+  background: transparent;
+  padding: 0;
+}
+
+.prose code:not(pre code) {
+  background: var(--code-bg);
+  border-radius: 0.375rem;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.prose [data-line] {
+  display: block;
+  padding: 0 1rem;
+}
+
+.prose .line--highlighted {
+  background: var(--line-highlight);
+}
+
+.prose .word--highlighted {
+  background: var(--word-highlight);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.2rem;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid hsl(var(--border));
+  padding: 0.75rem;
+}
+
+.prose img {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.prose blockquote {
+  border-left: 4px solid hsl(var(--primary));
+  padding-left: 1rem;
+  font-style: italic;
+}

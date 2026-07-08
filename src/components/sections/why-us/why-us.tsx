@@ -1,6 +1,11 @@
-import { Container, Section, SectionHeading } from "@/components/common";
-import { FeatureCard } from "./feature-card";
+import {
+  Container,
+  Section,
+  SectionHeading,
+} from "@/components/common";
+
 import { features } from "./data";
+import { FeatureCard } from "./feature-card";
 
 export function WhyUs() {
   return (
@@ -13,7 +18,7 @@ export function WhyUs() {
           center
         />
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:gap-6 md:grid-cols-2 lg:gap-8 xl:mt-16 xl:grid-cols-3">
           {features.map((feature) => (
             <FeatureCard
               key={feature.title}

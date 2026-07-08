@@ -10,15 +10,17 @@ export function PortfolioCard({
   technologies,
 }: PortfolioCardProps) {
   return (
-    <div className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-violet-500/40">
-      <div className="h-56 bg-gradient-to-br from-violet-600/30 via-cyan-500/20 to-fuchsia-500/20" />
+    <div className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-violet-500/40">
+      {/* Preview */}
+      <div className="h-44 bg-liner-to-br from-violet-600/30 via-cyan-500/20 to-fuchsia-500/20 sm:h-52 lg:h-56" />
 
-      <div className="p-6">
-        <span className="text-sm text-violet-400">
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <span className="text-xs font-medium text-violet-400 sm:text-sm">
           {category}
         </span>
 
-        <h3 className="mt-3 text-2xl font-bold text-white">
+        <h3 className="mt-3 text-xl font-bold leading-tight text-white sm:text-2xl">
           {title}
         </h3>
 
@@ -26,7 +28,7 @@ export function PortfolioCard({
           {technologies.map((tech) => (
             <span
               key={tech}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300"
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium text-zinc-300 sm:text-xs"
             >
               {tech}
             </span>

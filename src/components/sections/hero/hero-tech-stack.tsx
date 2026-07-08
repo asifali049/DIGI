@@ -1,9 +1,9 @@
 import {
-  SiReact,
   SiNextdotjs,
-  SiTypescript,
   SiNodedotjs,
+  SiReact,
   SiTailwindcss,
+  SiTypescript,
 } from "react-icons/si";
 
 const tech = [
@@ -16,17 +16,20 @@ const tech = [
 
 export function HeroTechStack() {
   return (
-    <div className="mt-12 flex flex-wrap gap-4">
+    <div className="mt-10 flex flex-wrap justify-center gap-3 sm:mt-12 sm:gap-4 lg:justify-start">
       {tech.map((item) => {
         const Icon = item.icon;
 
         return (
           <div
             key={item.name}
-            className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40"
+            className="flex min-h-12 items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40 sm:gap-3 sm:px-5 sm:py-3"
           >
-            <Icon className={`text-2xl ${item.color}`} />
-            <span className="text-sm text-zinc-300">
+            <Icon
+              className={`text-xl sm:text-2xl ${item.color}`}
+            />
+
+            <span className="text-xs text-zinc-300 sm:text-sm">
               {item.name}
             </span>
           </div>
