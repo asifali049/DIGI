@@ -82,7 +82,7 @@ export const SelectContent = React.forwardRef<
       ref={ref}
       position={position}
       className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-xl",
+        "z-50 min-w-32 overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-xl",
         className
       )}
       {...props}
@@ -124,7 +124,7 @@ export const SelectItem = React.forwardRef<
     className={cn(
       "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2 text-sm outline-none",
       "focus:bg-accent focus:text-accent-foreground",
-      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     )}
     {...props}

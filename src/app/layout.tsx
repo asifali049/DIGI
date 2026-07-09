@@ -32,8 +32,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Digital Agency",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+  ),
+  title: {
+    default: "Digital Agency",
+    template: "%s | Digital Agency",
+  },
   description: "Premium Digital Agency",
+  openGraph: {
+    title: "Digital Agency",
+    description: "Premium Digital Agency",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Digital Agency",
+    description: "Premium Digital Agency",
+  },
 };
 
 export default function RootLayout({

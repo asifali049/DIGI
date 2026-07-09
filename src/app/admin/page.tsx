@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BarChart3,
   BriefcaseBusiness,
@@ -6,7 +8,6 @@ import {
 } from "lucide-react";
 
 import { StatsCard } from "@/components/ui";
-
 import { AnalyticsChart } from "@/components/admin/dashboard/analytics-chart";
 import { DashboardSection } from "@/components/admin/dashboard/dashboard-section";
 import { NotificationsPanel } from "@/components/admin/dashboard/notifications-panel";
@@ -16,7 +17,6 @@ import { RecentActivity } from "@/components/admin/dashboard/recent-activity";
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
-      {/* Hero */}
       <section>
         <h1 className="text-3xl font-bold tracking-tight">
           Dashboard Overview
@@ -24,11 +24,10 @@ export default function AdminDashboardPage() {
 
         <p className="mt-2 max-w-2xl text-muted-foreground">
           Welcome back. Here&apos;s an overview of your agency performance,
-          projects, content, leads and overall activity.
+          projects, content, leads, and overall activity.
         </p>
       </section>
 
-      {/* Stats */}
       <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         <StatsCard
           title="Projects"
@@ -59,9 +58,7 @@ export default function AdminDashboardPage() {
         />
       </section>
 
-      {/* Main Dashboard */}
       <section className="grid gap-6 xl:grid-cols-12">
-        {/* Left */}
         <div className="space-y-6 xl:col-span-8">
           <DashboardSection
             title="Traffic Analytics"
@@ -78,7 +75,6 @@ export default function AdminDashboardPage() {
           </DashboardSection>
         </div>
 
-        {/* Right */}
         <div className="space-y-6 xl:col-span-4">
           <DashboardSection
             title="Recent Activity"

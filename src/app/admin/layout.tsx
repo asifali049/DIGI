@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
-import { AdminHeader } from "@/components/admin/admin-header";
 import { AdminBreadcrumbs } from "@/components/admin/admin-breadcrumbs";
+import { AdminHeader } from "@/components/admin/admin-header";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
 
 import {
   Sheet,
@@ -17,14 +17,17 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({
   children,
-}: Readonly<AdminLayoutProps>) {
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+}: AdminLayoutProps) {
+  const [mobileSidebarOpen, setMobileSidebarOpen] =
+    useState(false);
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="flex">
+      <div className="flex min-h-screen">
         {/* Desktop Sidebar */}
-        <AdminSidebar />
+        <aside className="hidden lg:block">
+          <AdminSidebar />
+        </aside>
 
         {/* Mobile Sidebar */}
         <Sheet
@@ -39,19 +42,21 @@ export default function AdminLayout({
           </SheetContent>
         </Sheet>
 
-        {/* Main */}
-        <main className="flex min-h-screen flex-1 flex-col">
+        {/* Main Content */}
+        <main className="flex min-h-screen min-w-0 flex-1 flex-col">
           <AdminHeader
             title="Dashboard"
             description="Welcome back 👋"
-            onMenuClick={() => setMobileSidebarOpen(true)}
+            onMenuClick={() =>
+              setMobileSidebarOpen(true)
+            }
           />
 
-          <div className="space-y-6 p-4 md:p-6">
+          <section className="flex-1 space-y-6 p-4 md:p-6">
             <AdminBreadcrumbs />
 
             {children}
-          </div>
+          </section>
         </main>
       </div>
     </div>
