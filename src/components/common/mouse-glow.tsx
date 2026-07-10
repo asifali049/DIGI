@@ -1,10 +1,16 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function MouseGlow() {
-  const [enabled, setEnabled] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const isEnabled =
+  !shouldReduceMotion &&
+  typeof window !== "undefined" &&
+  !window.matchMedia("(pointer: coarse)").matches;
+
+  
 
   const mouseX = useMotionValue(-500);
   const mouseY = useMotionValue(-500);
@@ -12,33 +18,42 @@ export function MouseGlow() {
   const x = useSpring(mouseX, {
     stiffness: 120,
     damping: 20,
+    mass: 0.3,
   });
 
   const y = useSpring(mouseY, {
     stiffness: 120,
     damping: 20,
+    mass: 0.3,
   });
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) {
+    if (
+      shouldReduceMotion ||
+      window.matchMedia("(pointer: coarse)").matches
+    ) {
       return;
     }
 
-    setEnabled(true);
 
-    const handleMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX - 200);
-      mouseY.set(e.clientY - 200);
+
+    const handleMove = (event: MouseEvent) => {
+      mouseX.set(event.clientX - 200);
+      mouseY.set(event.clientY - 200);
     };
 
-    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mousemove", handleMove, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("mousemove", handleMove);
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, shouldReduceMotion]);
 
-  if (!enabled) return null;
+  if (!isEnabled) {
+  return null;
+}
 
   return (
     <motion.div
@@ -47,7 +62,19 @@ export function MouseGlow() {
         x,
         y,
       }}
-      className="pointer-events-none fixed left-0 top-0 z-0 h-[400px] w-[400px] rounded-full bg-primary/15 blur-[120px]"
+      className="
+        pointer-events-none
+        fixed
+        left-0
+        top-0
+        z-0
+        h-100
+        w-100
+        rounded-full
+        bg-primary/15
+        blur-[120px]
+        will-change-transform
+      "
     />
   );
 }

@@ -1,96 +1,96 @@
-"use client";
+import { LayoutShell } from "@/components/layout";
 
-import {
-  BarChart3,
-  BriefcaseBusiness,
-  FileText,
-  MessageSquareQuote,
-} from "lucide-react";
+import { Reveal } from "@/components/common/reveal";
 
-import { StatsCard } from "@/components/ui";
-import { AnalyticsChart } from "@/components/admin/dashboard/analytics-chart";
-import { DashboardSection } from "@/components/admin/dashboard/dashboard-section";
-import { NotificationsPanel } from "@/components/admin/dashboard/notifications-panel";
-import { QuickActions } from "@/components/admin/dashboard/quick-actions";
-import { RecentActivity } from "@/components/admin/dashboard/recent-activity";
+import { Hero } from "@/components/sections/hero";
+import { Services } from "@/components/sections/services";
+import { WhyUs } from "@/components/sections/why-us";
+import { Portfolio } from "@/components/sections/portfolio";
+import { Process } from "@/components/sections/process";
+import { TechStack } from "@/components/sections/tech-stack";
 
-export default function AdminDashboardPage() {
+import { StatsSection } from "@/components/home/stats-section";
+import { LogoMarquee } from "@/components/home/logo-marquee";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { PricingSection } from "@/components/home/pricing-section";
+import { FAQSection } from "@/components/home/faq-section";
+import { CTABanner } from "@/components/home/cta-banner";
+
+export default function HomePage() {
   return (
-    <div className="space-y-8">
-      <section>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Dashboard Overview
-        </h1>
+    <LayoutShell>
+      <main
+        id="main-content"
+        className="bg-background text-foreground transition-colors duration-300"
+      >
+        <Hero />
 
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          Welcome back. Here&apos;s an overview of your agency performance,
-          projects, content, leads, and overall activity.
-        </p>
-      </section>
+        <Reveal>
+          <section id="services">
+            <Services />
+          </section>
+        </Reveal>
 
-      <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        <StatsCard
-          title="Projects"
-          value="24"
-          description="+4 this month"
-          icon={BriefcaseBusiness}
-        />
+        <Reveal delay={0.1}>
+          <section id="why-us">
+            <WhyUs />
+          </section>
+        </Reveal>
 
-        <StatsCard
-          title="Blog Posts"
-          value="132"
-          description="12 Drafts"
-          icon={FileText}
-        />
+        <Reveal delay={0.15}>
+          <section id="portfolio">
+            <Portfolio />
+          </section>
+        </Reveal>
 
-        <StatsCard
-          title="Testimonials"
-          value="48"
-          description="8 Pending"
-          icon={MessageSquareQuote}
-        />
+        <Reveal delay={0.2}>
+          <section id="process">
+            <Process />
+          </section>
+        </Reveal>
 
-        <StatsCard
-          title="Visitors"
-          value="28.4K"
-          description="+18.6%"
-          icon={BarChart3}
-        />
-      </section>
+        <Reveal delay={0.25}>
+          <section id="tech-stack">
+            <TechStack />
+          </section>
+        </Reveal>
 
-      <section className="grid gap-6 xl:grid-cols-12">
-        <div className="space-y-6 xl:col-span-8">
-          <DashboardSection
-            title="Traffic Analytics"
-            description="Website visitors during the last seven months."
-          >
-            <AnalyticsChart />
-          </DashboardSection>
+        <Reveal delay={0.3}>
+          <section id="stats">
+            <StatsSection />
+          </section>
+        </Reveal>
 
-          <DashboardSection
-            title="Quick Actions"
-            description="Frequently used admin actions."
-          >
-            <QuickActions />
-          </DashboardSection>
-        </div>
+        <Reveal delay={0.35}>
+          <section id="clients">
+            <LogoMarquee />
+          </section>
+        </Reveal>
 
-        <div className="space-y-6 xl:col-span-4">
-          <DashboardSection
-            title="Recent Activity"
-            description="Latest actions across your agency."
-          >
-            <RecentActivity />
-          </DashboardSection>
+        <Reveal direction="right" delay={0.4}>
+          <section id="testimonials">
+            <TestimonialsSection />
+          </section>
+        </Reveal>
 
-          <DashboardSection
-            title="Notifications"
-            description="Latest alerts and updates."
-          >
-            <NotificationsPanel />
-          </DashboardSection>
-        </div>
-      </section>
-    </div>
+        <Reveal direction="left" delay={0.45}>
+          <section id="pricing">
+            <PricingSection />
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.5}>
+          <section id="faq">
+            <FAQSection />
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.55}>
+          <section id="contact">
+            <CTABanner />
+          </section>
+        </Reveal>
+      </main>
+    </LayoutShell>
   );
 }

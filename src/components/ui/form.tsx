@@ -16,7 +16,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-const Form = FormProvider;
+export const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -25,28 +25,28 @@ type FormFieldContextValue<
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
-);
+const FormFieldContext =
+  React.createContext<FormFieldContextValue | null>(null);
 
-function FormField<
+const FormItemContext =
+  React.createContext<{ id: string } | null>(null);
+
+export function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) {
+>(
+  props: ControllerProps<TFieldValues, TName>
+) {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider
+      value={{ name: props.name }}
+    >
       <Controller {...props} />
     </FormFieldContext.Provider>
   );
 }
 
-const FormItemContext = React.createContext<{ id: string }>(
-  {} as { id: string }
-);
-
-function FormItem({
+export function FormItem({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -54,52 +54,83 @@ function FormItem({
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div className={cn("space-y-2", className)} {...props} />
+      <div
+        className={cn("space-y-2", className)}
+        {...props}
+      />
     </FormItemContext.Provider>
   );
 }
 
-function useFormField() {
-  const fieldContext = React.useContext(FormFieldContext);
-  const itemContext = React.useContext(FormItemContext);
+export function useFormField() {
+  const fieldContext =
+    React.useContext(FormFieldContext);
+
+  const itemContext =
+    React.useContext(FormItemContext);
+
+  if (!fieldContext) {
+    throw new Error(
+      "useFormField must be used inside <FormField>."
+    );
+  }
+
+  if (!itemContext) {
+    throw new Error(
+      "useFormField must be used inside <FormItem>."
+    );
+  }
 
   const { getFieldState } = useFormContext();
+
   const formState = useFormState({
     name: fieldContext.name,
   });
 
-  const fieldState = getFieldState(fieldContext.name, formState);
+  const fieldState = getFieldState(
+    fieldContext.name,
+    formState
+  );
 
   const { id } = itemContext;
 
   return {
     id,
+
     name: fieldContext.name,
+
     formItemId: `${id}-form-item`,
+
     formDescriptionId: `${id}-form-item-description`,
+
     formMessageId: `${id}-form-item-message`,
+
     ...fieldState,
   };
 }
 
-function FormLabel({
+export function FormLabel({
   className,
   ...props
 }: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  const { error, formItemId } = useFormField();
+  const { error, formItemId } =
+    useFormField();
 
   return (
     <Label
       htmlFor={formItemId}
-      className={cn(error && "text-destructive", className)}
+      className={cn(
+        error && "text-destructive",
+        className
+      )}
       {...props}
     />
   );
 }
 
-function FormControl({
-  ...props
-}: React.ComponentProps<typeof Slot>) {
+export function FormControl(
+  props: React.ComponentProps<typeof Slot>
+) {
   const {
     error,
     formItemId,
@@ -121,11 +152,12 @@ function FormControl({
   );
 }
 
-function FormDescription({
+export function FormDescription({
   className,
   ...props
 }: React.ComponentProps<"p">) {
-  const { formDescriptionId } = useFormField();
+  const { formDescriptionId } =
+    useFormField();
 
   return (
     <p
@@ -139,16 +171,18 @@ function FormDescription({
   );
 }
 
-function FormMessage({
+export function FormMessage({
   className,
   children,
   ...props
 }: React.ComponentProps<"p">) {
-  const { error, formMessageId } = useFormField();
+  const { error, formMessageId } =
+    useFormField();
 
-  const body = error
-    ? String(error.message ?? "")
-    : children;
+  const body =
+    error?.message != null
+      ? String(error.message)
+      : children;
 
   if (!body) return null;
 
@@ -165,14 +199,3 @@ function FormMessage({
     </p>
   );
 }
-
-export {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  useFormField,
-};

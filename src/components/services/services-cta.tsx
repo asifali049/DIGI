@@ -2,29 +2,55 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui";
 
 export function ServicesCta() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 md:py-24 lg:py-32">
+    <section
+      aria-labelledby="services-cta-heading"
+      className="relative overflow-hidden py-16 sm:py-20 md:py-24 lg:py-32"
+    >
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 30,
+                }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
           viewport={{ once: true }}
-          className="relative overflow-hidden rounded-4xl border bg-liner-to-br from-primary/10 via-background to-background p-6 sm:rounded-[36px] sm:p-8 md:rounded-[40px] md:p-12 lg:p-16"
+          transition={{ duration: 0.6 }}
+          className="relative overflow-hidden rounded-4xl border border-border bg-linear-to-br from-primary/10 via-background to-background p-6 sm:rounded-[36px] sm:p-8 md:rounded-[40px] md:p-12 lg:p-16"
         >
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
-          <div className="absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+          <div
+            aria-hidden="true"
+            className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl"
+          />
+
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl"
+          />
 
           <div className="relative mx-auto max-w-3xl text-center">
-            <span className="inline-flex rounded-full border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+            <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
               Let&apos;s Build Together
             </span>
 
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-balance sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl">
+            <h2
+              id="services-cta-heading"
+              className="mt-5 text-balance text-3xl font-bold tracking-tight sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl"
+            >
               Ready to Build Your Next Digital Product?
             </h2>
 
@@ -53,7 +79,10 @@ export function ServicesCta() {
               >
                 <Link href="/portfolio">
                   View Our Work
-                  <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="ml-2 h-4 w-4 shrink-0"
+                  />
                 </Link>
               </Button>
             </div>

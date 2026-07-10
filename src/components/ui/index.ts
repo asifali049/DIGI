@@ -46,3 +46,4 @@ export * from "./empty-state";
 export * from "./loading";
 export * from "./stats-card";
 export * from "./timeline";
+export * from "./dialog";

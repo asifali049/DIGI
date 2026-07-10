@@ -1,9 +1,16 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
 import { useEffect } from "react";
 
 export function CustomCursor() {
+  const shouldReduceMotion = useReducedMotion();
+
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
@@ -20,21 +27,31 @@ export function CustomCursor() {
   });
 
   useEffect(() => {
-    if ("ontouchstart" in window) return;
+    if (shouldReduceMotion) {
+      return;
+    }
 
-    const move = (e: MouseEvent) => {
-      mouseX.set(e.clientX - 10);
-      mouseY.set(e.clientY - 10);
+    const media = window.matchMedia("(pointer: fine)");
+
+    if (!media.matches) {
+      return;
+    }
+
+    const handleMove = (event: MouseEvent) => {
+      mouseX.set(event.clientX - 10);
+      mouseY.set(event.clientY - 10);
     };
 
-    window.addEventListener("mousemove", move);
+    window.addEventListener("mousemove", handleMove, {
+      passive: true,
+    });
 
     return () => {
-      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mousemove", handleMove);
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, shouldReduceMotion]);
 
-  if (typeof window !== "undefined" && "ontouchstart" in window) {
+  if (shouldReduceMotion) {
     return null;
   }
 
@@ -45,7 +62,22 @@ export function CustomCursor() {
         x,
         y,
       }}
-      className="pointer-events-none fixed left-0 top-0 z-[99999] h-5 w-5 rounded-full bg-primary mix-blend-difference"
+      className="
+        pointer-events-none
+        fixed
+        left-0
+        top-0
+        z-99999
+        hidden
+        h-5
+        w-5
+        rounded-full
+        bg-primary
+        mix-blend-difference
+        will-change-transform
+        md:block
+        [@media(pointer:coarse)]:hidden
+      "
     />
   );
 }

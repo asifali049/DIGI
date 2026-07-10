@@ -20,41 +20,55 @@ export function Navbar() {
       setScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <nav
+        aria-label="Primary Navigation"
         className={cn(
           "mx-auto mt-3 flex h-14 w-[calc(100%-1rem)] max-w-7xl items-center justify-between rounded-2xl border px-4 transition-all duration-300 sm:mt-4 sm:h-16 sm:w-[calc(100%-2rem)] sm:px-6 lg:px-8",
           scrolled
-            ? "border-white/10 bg-black/70 shadow-2xl backdrop-blur-2xl"
+            ? "border-border bg-background/75 shadow-2xl backdrop-blur-2xl supports-[backdrop-filter]:bg-background/70"
             : "border-transparent bg-transparent"
         )}
       >
         {/* Logo */}
+
         <Link
           href="/"
-          className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight text-white transition-colors sm:text-2xl"
+          aria-label="Digital Agency Home"
+          className="shrink-0 whitespace-nowrap text-lg font-black tracking-tight text-foreground transition-colors sm:text-xl lg:text-2xl"
         >
           Digital
           <span className="text-violet-500">Agency</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 lg:flex">
+
+        <div className="hidden items-center gap-6 xl:gap-8 lg:flex">
           {siteConfig.navigation.map((item) => (
             <Link
               key={item.href}
               href={item.href}
+              aria-current={
+                pathname === item.href
+                  ? "page"
+                  : undefined
+              }
               className={cn(
                 "relative text-sm font-medium transition-colors duration-300",
                 pathname === item.href
-                  ? "text-white"
-                  : "text-zinc-400 hover:text-white"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               {item.title}
@@ -66,12 +80,15 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Right Side */}
+        {/* Right */}
+
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <ThemeToggle />
 
           <div className="hidden lg:block">
-            <Button>Start Project</Button>
+            <Button>
+              Start Project
+            </Button>
           </div>
 
           <MobileMenu />

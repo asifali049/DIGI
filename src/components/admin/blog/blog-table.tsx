@@ -1,20 +1,35 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import type { SortingState } from "@tanstack/react-table";
+import {
+  useDeferredValue,
+  useMemo,
+  useState,
+} from "react";
+
+import type {
+  SortingState,
+} from "@tanstack/react-table";
 
 import { blogData } from "@/constants/blog-data";
+
 import { blogColumns } from "./blog-columns";
 
 import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
 
 export function BlogTable() {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] =
+    useState<SortingState>([]);
+
   const [search, setSearch] = useState("");
 
+  const deferredSearch =
+    useDeferredValue(search);
+
   const filteredPosts = useMemo(() => {
-    const query = search.trim().toLowerCase();
+    const query = deferredSearch
+      .trim()
+      .toLowerCase();
 
     if (!query) {
       return blogData;
@@ -22,45 +37,71 @@ export function BlogTable() {
 
     return blogData.filter((post) => {
       return (
-        post.title.toLowerCase().includes(query) ||
-        post.author.name.toLowerCase().includes(query) ||
-        post.category.name.toLowerCase().includes(query) ||
+        post.title
+          .toLowerCase()
+          .includes(query) ||
+        post.author.name
+          .toLowerCase()
+          .includes(query) ||
+        post.category.name
+          .toLowerCase()
+          .includes(query) ||
         post.tags.some((tag) =>
-          tag.toLowerCase().includes(query)
+          tag
+            .toLowerCase()
+            .includes(query)
         )
       );
     });
-  }, [search]);
+  }, [deferredSearch]);
 
   return (
-    <div className="space-y-5 sm:space-y-6">
+    <section
+      aria-labelledby="blog-table-heading"
+      className="space-y-5 sm:space-y-6"
+    >
+      <h2
+        id="blog-table-heading"
+        className="sr-only"
+      >
+        Blog Posts
+      </h2>
+
       {/* Toolbar */}
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Input
-          placeholder="Search blog posts..."
+          type="search"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(event) =>
+            setSearch(event.target.value)
+          }
+          placeholder="Search blog posts..."
+          aria-label="Search blog posts"
+          autoComplete="off"
+          spellCheck={false}
           className="w-full sm:max-w-sm"
         />
       </div>
 
       {/* Table */}
 
-      <div className="overflow-hidden rounded-2xl border">
+      <div className="overflow-hidden rounded-2xl border border-border">
         <div className="overflow-x-auto">
           <DataTable
             columns={blogColumns}
             data={filteredPosts}
+            emptyMessage="No blog posts found."
             options={{
               state: {
                 sorting,
               },
-              onSortingChange: setSorting,
+              onSortingChange:
+                setSorting,
             }}
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

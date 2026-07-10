@@ -7,7 +7,9 @@ import {
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
+  type SortingState,
   type TableOptions,
+  type Updater,
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
@@ -20,71 +22,114 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface DataTableProps<TData> {
-  columns: ColumnDef<TData>[];
-  data: TData[];
-  options?: Partial<TableOptions<TData>>;
+export interface DataTableOptions<TData> {
+  state?: {
+    sorting?: SortingState;
+  };
+
+  onSortingChange?: (
+    updater: Updater<SortingState>
+  ) => void;
 }
 
-export function DataTable<TData>({
+interface DataTableProps<TData extends object> {
+  columns: ColumnDef<TData, unknown>[];
+  data: TData[];
+
+  emptyMessage?: string;
+
+  options?: DataTableOptions<TData>;
+}
+
+export function DataTable<TData extends object>({
   columns,
   data,
+  emptyMessage = "No results found.",
   options,
 }: DataTableProps<TData>) {
   const table = useReactTable({
     data,
     columns,
+
+    state: options?.state,
+
+    onSortingChange:
+      options?.onSortingChange,
+
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    ...options,
-  });
+
+    getSortedRowModel:
+      getSortedRowModel(),
+
+    getPaginationRowModel:
+      getPaginationRowModel(),
+  } satisfies TableOptions<TData>);
 
   return (
     <div className="space-y-4">
       <div className="overflow-hidden rounded-xl border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
+            {table
+              .getHeaderGroups()
+              .map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map(
+                    (header) => (
+                      <TableHead
+                        key={header.id}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column
+                                .columnDef
+                                .header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    )
+                  )}
+                </TableRow>
+              ))}
           </TableHeader>
 
           <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+            {table.getRowModel().rows.length >
+            0 ? (
+              table
+                .getRowModel()
+                .rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={
+                      row.getIsSelected()
+                        ? "selected"
+                        : undefined
+                    }
+                  >
+                    {row
+                      .getVisibleCells()
+                      .map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                        >
+                          {flexRender(
+                            cell.column
+                              .columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                  </TableRow>
+                ))
             ) : (
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
                   className="h-32 text-center text-muted-foreground"
                 >
-                  No results found.
+                  {emptyMessage}
                 </TableCell>
               </TableRow>
             )}
@@ -92,7 +137,7 @@ export function DataTable<TData>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">
           Showing{" "}
           <span className="font-medium">
@@ -109,8 +154,12 @@ export function DataTable<TData>({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() =>
+              table.previousPage()
+            }
+            disabled={
+              !table.getCanPreviousPage()
+            }
           >
             Previous
           </Button>
@@ -118,7 +167,9 @@ export function DataTable<TData>({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
+            onClick={() =>
+              table.nextPage()
+            }
             disabled={!table.getCanNextPage()}
           >
             Next

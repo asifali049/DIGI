@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useCallback,
+  useState,
+  useTransition,
+} from "react";
+
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
@@ -11,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,32 +24,37 @@ import {
 
 export function CreateBlogDialog() {
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(
-    values: BlogFormValues
-  ) {
-    try {
-      setIsSubmitting(true);
+  const [isPending, startTransition] =
+    useTransition();
 
-      console.log(values);
+  const handleSubmit = useCallback(
+    (values: BlogFormValues) => {
+      startTransition(async () => {
+        try {
+          console.log(values);
 
-      // TODO:
-      // Replace with Server Action / API
+          // TODO:
+          // Replace with Server Action / API Mutation
 
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1000)
-      );
+          await new Promise((resolve) =>
+            setTimeout(resolve, 1000)
+          );
 
-      toast.success("Blog created successfully.");
+          toast.success(
+            "Blog created successfully."
+          );
 
-      setOpen(false);
-    } catch {
-      toast.error("Failed to create blog.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+          setOpen(false);
+        } catch {
+          toast.error(
+            "Unable to create blog."
+          );
+        }
+      });
+    },
+    []
+  );
 
   return (
     <Dialog
@@ -52,12 +63,17 @@ export function CreateBlogDialog() {
     >
       <DialogTrigger asChild>
         <Button className="w-full sm:w-auto">
-          <Plus className="mr-2 h-4 w-4 shrink-0" />
+          <Plus
+            aria-hidden="true"
+            className="mr-2 h-4 w-4 shrink-0"
+          />
+
           <span>New Article</span>
         </Button>
       </DialogTrigger>
 
       <DialogContent
+        aria-busy={isPending}
         className="
           max-h-[90dvh]
           w-[calc(100vw-2rem)]
@@ -71,12 +87,18 @@ export function CreateBlogDialog() {
           <DialogTitle className="text-xl sm:text-2xl">
             Create Blog
           </DialogTitle>
+
+          <DialogDescription>
+            Create a new blog article with
+            content, SEO metadata, tags, and
+            publishing options.
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="mt-2">
+        <div className="mt-4">
           <BlogForm
             onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
+            isSubmitting={isPending}
           />
         </div>
       </DialogContent>

@@ -2,39 +2,63 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui";
 
 export function PortfolioCta() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
-      <div className="absolute inset-0 bg-liner-to-br from-primary/5 via-transparent to-primary/10" />
+    <section
+      aria-labelledby="portfolio-cta-heading"
+      className="relative overflow-hidden py-24 md:py-32"
+    >
+      <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/10" />
 
       <div className="container relative">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 40,
+                }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-[40px] border bg-background/80 p-10 backdrop-blur-xl md:p-16"
+          className="relative overflow-hidden rounded-[40px] border border-border bg-background/80 p-8 backdrop-blur-xl sm:p-10 md:p-16"
         >
-          {/* Glow */}
-          <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-primary/15 blur-3xl" />
+          {/* Background Glow */}
+          <div
+            aria-hidden="true"
+            className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-primary/15 blur-3xl"
+          />
 
           <div className="relative mx-auto max-w-3xl text-center">
-            <span className="inline-flex rounded-full border px-4 py-1 text-sm font-medium">
+            <span className="inline-flex rounded-full border border-border px-4 py-1 text-sm font-medium">
               Start Your Project
             </span>
 
-            <h2 className="mt-6 text-4xl font-bold tracking-tight md:text-6xl">
+            <h2
+              id="portfolio-cta-heading"
+              className="mt-6 text-balance text-4xl font-bold tracking-tight md:text-6xl"
+            >
               Let&apos;s Build Your
               <br />
               Next Success Story
             </h2>
 
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
               Whether you&apos;re launching a startup, scaling a SaaS platform,
               modernizing an enterprise application, or building a custom
               digital product, we&apos;re ready to help.
@@ -50,7 +74,10 @@ export function PortfolioCta() {
               <Button variant="outline" size="lg" asChild>
                 <Link href="/services">
                   Explore Services
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="ml-2 h-4 w-4"
+                  />
                 </Link>
               </Button>
             </div>

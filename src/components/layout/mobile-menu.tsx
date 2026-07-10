@@ -7,9 +7,29 @@ export function MobileMenu() {
     <button
       type="button"
       aria-label="Open navigation menu"
-      className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-colors duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500/50 lg:hidden sm:h-11 sm:w-11"
+      aria-haspopup="dialog"
+      aria-expanded={false}
+      className="
+        flex h-10 w-10 items-center justify-center
+        rounded-xl
+        border border-border
+        bg-background/70
+        text-foreground
+        backdrop-blur-xl
+        transition-all duration-300
+        hover:bg-accent
+        hover:text-foreground
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-violet-500/50
+        focus-visible:ring-offset-2
+        focus-visible:ring-offset-background
+        active:scale-95
+        lg:hidden
+        sm:h-11 sm:w-11
+      "
     >
-      <Menu className="h-5 w-5 sm:h-5 sm:w-5" />
+      <Menu className="h-5 w-5 shrink-0" />
     </button>
   );
 }

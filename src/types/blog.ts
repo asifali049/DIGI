@@ -1,4 +1,6 @@
-
+/* -------------------------------------------------------------------------- */
+/*                                    Base                                    */
+/* -------------------------------------------------------------------------- */
 
 export type BlogStatus =
   | "draft"
@@ -17,74 +19,154 @@ export type BlogCategorySlug =
   | "startup"
   | "case-study";
 
+/* -------------------------------------------------------------------------- */
+/*                                  Category                                  */
+/* -------------------------------------------------------------------------- */
+
 export interface BlogCategory {
-  id: string;
-  name: string;
-  slug: BlogCategorySlug;
-  description?: string;
+  readonly id: string;
+  readonly name: string;
+  readonly slug: BlogCategorySlug;
+  readonly description?: string;
 }
 
-export interface BlogAuthor {
-  id: string;
-  name: string;
-  avatar: string;
-  role: string;
-  bio?: string;
-  website?: string;
-  github?: string;
-  linkedin?: string;
-  twitter?: string;
+/* -------------------------------------------------------------------------- */
+/*                                   Author                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface BlogAuthorSocials {
+  readonly website?: string;
+  readonly github?: string;
+  readonly linkedin?: string;
+  readonly twitter?: string;
+}
+
+export interface BlogAuthor
+  extends BlogAuthorSocials {
+  readonly id: string;
+  readonly name: string;
+  readonly avatar: string;
+  readonly role: string;
+  readonly bio?: string;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                     SEO                                    */
+/* -------------------------------------------------------------------------- */
+
+export interface BlogOpenGraph {
+  readonly title: string;
+  readonly description: string;
+  readonly image: string;
+  readonly url?: string;
+  readonly type?: "article";
 }
 
 export interface BlogSeo {
-  metaTitle: string;
-  metaDescription: string;
-  keywords: readonly string[];
-  canonicalUrl?: string;
+  readonly metaTitle: string;
+  readonly metaDescription: string;
 
-  openGraph?: {
-    title: string;
-    description: string;
-    image: string;
-  };
+  readonly keywords: readonly string[];
+
+  readonly canonicalUrl?: string;
+
+  readonly robots?: string;
+
+  readonly openGraph?: BlogOpenGraph;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                    Post                                    */
+/* -------------------------------------------------------------------------- */
+
 export interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
+  readonly id: string;
 
-  content?: string;
+  readonly title: string;
 
-  coverImage: string;
+  readonly slug: string;
 
-  category: BlogCategory;
+  readonly excerpt: string;
 
-  tags: string[];
+  readonly content: string;
 
-  status?: BlogStatus;
+  readonly coverImage: string;
 
-  featured: boolean;
+  readonly category: BlogCategory;
 
-  published?: boolean;
+  readonly tags: readonly string[];
 
-  author: BlogAuthor;
+  readonly status: BlogStatus;
 
-  readingTime: number;
+  readonly featured: boolean;
 
-  seo?: BlogSeo;
+  readonly published: boolean;
 
-  seoTitle?: string;
+  readonly author: BlogAuthor;
 
-  seoDescription?: string;
+  readonly readingTime: number;
 
-  // ADD THIS
-  canonicalUrl?: string;
+  readonly seo: BlogSeo;
 
-  publishedAt?: string;
+  readonly publishedAt?: string;
 
-  createdAt?: string;
+  readonly createdAt: string;
 
-  updatedAt?: string;
+  readonly updatedAt: string;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  Requests                                  */
+/* -------------------------------------------------------------------------- */
+
+export interface CreateBlogInput {
+  readonly title: string;
+  readonly slug: string;
+  readonly excerpt: string;
+  readonly content: string;
+  readonly coverImage: string;
+  readonly category: BlogCategorySlug;
+  readonly status: BlogStatus;
+  readonly tags: readonly string[];
+  readonly featured: boolean;
+  readonly published: boolean;
+  readonly author: string;
+  readonly readingTime: number;
+  readonly seoTitle: string;
+  readonly seoDescription: string;
+  readonly canonicalUrl?: string;
+  readonly publishedAt?: string;
+}
+
+export interface UpdateBlogInput
+  extends Partial<CreateBlogInput> {
+  readonly id: string;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   Filter                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface BlogFilters {
+  readonly search?: string;
+  readonly category?: BlogCategorySlug;
+  readonly status?: BlogStatus;
+  readonly featured?: boolean;
+  readonly published?: boolean;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Pagination                                 */
+/* -------------------------------------------------------------------------- */
+
+export interface PaginationMeta {
+  readonly page: number;
+  readonly limit: number;
+  readonly total: number;
+  readonly totalPages: number;
+}
+
+export interface BlogListResponse {
+  readonly data: readonly BlogPost[];
+  readonly pagination: PaginationMeta;
 }

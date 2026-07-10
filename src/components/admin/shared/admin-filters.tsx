@@ -1,6 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { Filter, RotateCcw } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
 
 import {
   Select,
@@ -9,7 +14,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+
+/* -------------------------------------------------------------------------- */
+/*                                   Types                                    */
+/* -------------------------------------------------------------------------- */
 
 export interface AdminFilterOption {
   label: string;
@@ -18,59 +26,122 @@ export interface AdminFilterOption {
 
 export interface AdminFilter {
   key: string;
+
+  label?: string;
+
   placeholder: string;
+
   value: string;
-  options: AdminFilterOption[];
+
+  options: readonly AdminFilterOption[];
+
+  width?: string;
+
+  disabled?: boolean;
 }
 
 interface AdminFiltersProps {
-  filters: AdminFilter[];
-  onValueChange: (key: string, value: string) => void;
+  filters: readonly AdminFilter[];
+
+  onValueChange: (
+    key: string,
+    value: string
+  ) => void;
+
+  onReset?: () => void;
+
+  loading?: boolean;
+
   className?: string;
 }
+
+/* -------------------------------------------------------------------------- */
 
 export function AdminFilters({
   filters,
   onValueChange,
+  onReset,
+  loading = false,
   className,
 }: AdminFiltersProps) {
-  if (!filters.length) return null;
+  if (!filters.length) {
+    return null;
+  }
+
+  const hasActiveFilters = filters.some(
+    (filter) => filter.value !== ""
+  );
 
   return (
-    <div
+    <section
       className={cn(
-        "flex flex-wrap items-center gap-3",
+        "flex flex-wrap items-end gap-3",
         className
       )}
     >
       {filters.map((filter) => (
         <div
           key={filter.key}
-          className="w-full sm:w-[200px]"
+          className={cn(
+            "min-w-[180px] flex-1 sm:flex-none",
+            filter.width
+          )}
         >
+          {filter.label && (
+            <label className="mb-2 flex items-center gap-2 text-sm font-medium">
+              <Filter className="h-3.5 w-3.5 text-muted-foreground" />
+              {filter.label}
+            </label>
+          )}
+
           <Select
             value={filter.value}
+            disabled={
+              loading ||
+              filter.disabled
+            }
             onValueChange={(value) =>
-              onValueChange(filter.key, value)
+              onValueChange(
+                filter.key,
+                value
+              )
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder={filter.placeholder} />
+              <SelectValue
+                placeholder={
+                  filter.placeholder
+                }
+              />
             </SelectTrigger>
 
             <SelectContent>
-              {filter.options.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                >
-                  {option.label}
-                </SelectItem>
-              ))}
+              {filter.options.map(
+                (option) => (
+                  <SelectItem
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </SelectItem>
+                )
+              )}
             </SelectContent>
           </Select>
         </div>
       ))}
-    </div>
+
+      {hasActiveFilters && onReset && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onReset}
+          className="gap-2"
+        >
+          <RotateCcw className="h-4 w-4" />
+          Reset
+        </Button>
+      )}
+    </section>
   );
 }

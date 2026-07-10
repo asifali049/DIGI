@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { useMemo, useState } from "react";
+
 import {
   Calendar,
   Clock3,
@@ -10,7 +12,10 @@ import {
   User,
 } from "lucide-react";
 
+import { useReducedMotion } from "framer-motion";
+
 import type { BlogPost } from "@/types/blog";
+
 import { BlogStatusBadge } from "./blog-status-badge";
 
 import {
@@ -29,15 +34,35 @@ interface BlogPreviewSheetProps {
   trigger?: React.ReactNode;
 }
 
+function formatDate(date?: string) {
+  if (!date) return "-";
+
+  const parsed = new Date(date);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return date;
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(parsed);
+}
+
 export function BlogPreviewSheet({
   post,
   trigger,
 }: BlogPreviewSheetProps) {
   const [open, setOpen] = useState(false);
 
-  const publishedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString()
-    : "-";
+  const shouldReduceMotion =
+    useReducedMotion();
+
+  const publishedDate = useMemo(
+    () => formatDate(post.publishedAt),
+    [post.publishedAt]
+  );
 
   return (
     <Sheet
@@ -49,145 +74,198 @@ export function BlogPreviewSheet({
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Preview blog"
+            aria-label={`Preview "${post.title}"`}
           >
-            <Eye className="h-4 w-4" />
+            <Eye
+              aria-hidden="true"
+              className="h-4 w-4"
+            />
           </Button>
         )}
       </SheetTrigger>
 
-      <SheetContent className="w-full overflow-y-auto p-6 sm:max-w-3xl">
-        <SheetHeader>
-          <SheetTitle className="text-2xl">
+      <SheetContent className="w-full overflow-y-auto p-0 sm:max-w-4xl">
+        <SheetHeader className="border-b px-6 py-5">
+          <SheetTitle className="text-2xl font-bold">
             Blog Preview
           </SheetTitle>
         </SheetHeader>
 
-        <div className="mt-8 space-y-8">
+        <article className="space-y-8 p-6 md:p-8">
+
           {/* Cover */}
 
-          <div className="flex aspect-video items-center justify-center rounded-2xl border bg-muted text-sm text-muted-foreground">
-            Cover Image
+          <div className="overflow-hidden rounded-3xl border bg-muted">
+            <div className="relative aspect-video">
+              {post.coverImage ? (
+                <Image
+                  src={post.coverImage}
+                  alt={post.title}
+                  fill
+                  priority={open}
+                  sizes="(max-width:768px)100vw,900px"
+                  className={
+                    shouldReduceMotion
+                      ? "object-cover"
+                      : "object-cover transition-transform duration-700 hover:scale-105"
+                  }
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+                  No Cover Image
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Title */}
+          {/* Hero */}
 
-          <div className="space-y-4">
+          <section className="space-y-5">
+
             <div className="flex flex-wrap items-start gap-3">
-              <h2 className="flex-1 text-2xl font-bold leading-tight sm:text-3xl">
+              <h2 className="flex-1 text-balance text-3xl font-bold leading-tight md:text-4xl">
                 {post.title}
               </h2>
 
               {post.featured && (
-                <Star className="mt-1 h-5 w-5 shrink-0 fill-yellow-400 text-yellow-400" />
+                <Star
+                  aria-hidden="true"
+                  className="mt-1 h-5 w-5 shrink-0 fill-yellow-400 text-yellow-400"
+                />
               )}
             </div>
 
-            <BlogStatusBadge
-              status={post.status ?? "draft"}
-            />
+            <div className="flex flex-wrap items-center gap-3">
+              <BlogStatusBadge
+                status={
+                  post.status ??
+                  "draft"
+                }
+              />
 
-            <p className="leading-7 text-muted-foreground">
+              <Badge variant="secondary">
+                {post.category.name}
+              </Badge>
+            </div>
+
+            <p className="max-w-3xl text-base leading-8 text-muted-foreground">
               {post.excerpt}
             </p>
-          </div>
+          </section>
 
           <Separator />
 
           {/* Meta */}
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <section className="grid gap-4 md:grid-cols-2">
             <InfoCard
-              icon={<User className="h-4 w-4" />}
+              icon={
+                <User className="h-4 w-4" />
+              }
               label="Author"
               value={post.author.name}
             />
 
             <InfoCard
-              icon={<Clock3 className="h-4 w-4" />}
+              icon={
+                <Clock3 className="h-4 w-4" />
+              }
               label="Reading Time"
               value={`${post.readingTime} min`}
             />
 
             <InfoCard
-              icon={<Calendar className="h-4 w-4" />}
+              icon={
+                <Calendar className="h-4 w-4" />
+              }
               label="Published"
               value={publishedDate}
             />
 
             <InfoCard
-              icon={<Tag className="h-4 w-4" />}
+              icon={
+                <Tag className="h-4 w-4" />
+              }
               label="Category"
               value={post.category.name}
             />
-          </div>
+          </section>
 
           <Separator />
+                    {/* Content */}
 
-          {/* Content */}
-
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold">
+          <section className="space-y-4">
+            <h3 className="text-xl font-semibold">
               Content
             </h3>
 
-            <div className="rounded-xl border bg-muted/30 p-5">
-              <p className="whitespace-pre-wrap leading-7 text-muted-foreground">
-                {post.content ??
-                  "No content available."}
-              </p>
+            <div className="rounded-2xl border bg-muted/20 p-6">
+              {post.content ? (
+                <div className="prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap break-words leading-8">
+                  {post.content}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">
+                  No content available.
+                </p>
+              )}
             </div>
-          </div>
+          </section>
 
           <Separator />
 
           {/* Tags */}
 
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold">
+          <section className="space-y-4">
+            <h3 className="text-xl font-semibold">
               Tags
             </h3>
 
-            <div className="flex flex-wrap gap-2">
-              {post.tags.length ? (
-                post.tags.map((tag) => (
+            {post.tags.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
                   <Badge
                     key={tag}
                     variant="outline"
+                    className="rounded-full"
                   >
                     {tag}
                   </Badge>
-                ))
-              ) : (
-                <span className="text-sm text-muted-foreground">
-                  No tags
-                </span>
-              )}
-            </div>
-          </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No tags available.
+              </p>
+            )}
+          </section>
 
           <Separator />
 
-          {/* SEO */}
+          {/* SEO Preview */}
 
-          <div className="space-y-5">
-            <div>
-              <h4 className="font-semibold">
-                SEO Title
-              </h4>
+          <section className="space-y-5">
+            <h3 className="text-xl font-semibold">
+              SEO Preview
+            </h3>
 
-              <p className="mt-1 text-muted-foreground">
-                {post.seo?.metaTitle ?? "-"}
+            <div className="rounded-2xl border bg-background p-6">
+              <p className="truncate text-xs text-green-600 dark:text-green-400">
+                {post.canonicalUrl ??
+                  "https://example.com/blog/" +
+                    post.slug}
               </p>
-            </div>
 
-            <div>
-              <h4 className="font-semibold">
-                SEO Description
+              <h4 className="mt-2 line-clamp-2 text-xl font-medium text-blue-600 dark:text-blue-400">
+                {post.seo?.metaTitle ??
+                  post.seoTitle ??
+                  post.title}
               </h4>
 
-              <p className="mt-1 leading-7 text-muted-foreground">
-                {post.seo?.metaDescription ?? "-"}
+              <p className="mt-2 line-clamp-3 leading-7 text-muted-foreground">
+                {post.seo?.metaDescription ??
+                  post.seoDescription ??
+                  post.excerpt}
               </p>
             </div>
 
@@ -197,13 +275,13 @@ export function BlogPreviewSheet({
                   Canonical URL
                 </h4>
 
-                <p className="mt-1 break-all text-primary">
+                <p className="mt-2 break-all text-sm text-primary">
                   {post.canonicalUrl}
                 </p>
               </div>
             )}
-          </div>
-        </div>
+          </section>
+        </article>
       </SheetContent>
     </Sheet>
   );
@@ -221,13 +299,19 @@ function InfoCard({
   value,
 }: InfoCardProps) {
   return (
-    <div className="rounded-xl border p-4">
-      <div className="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
-        {icon}
+    <div className="rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/30">
+      <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+        <span
+          aria-hidden="true"
+          className="text-primary"
+        >
+          {icon}
+        </span>
+
         <span>{label}</span>
       </div>
 
-      <div className="wrap-break-words font-medium">
+      <div className="break-words text-sm font-medium leading-6 sm:text-base">
         {value}
       </div>
     </div>

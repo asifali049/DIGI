@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback } from "react";
+
 import {
   AlertTriangle,
   Loader2,
@@ -19,22 +21,50 @@ import {
 
 interface DeleteProjectDialogProps {
   open: boolean;
+
   onOpenChange: (open: boolean) => void;
-  projectName: string;
-  onConfirm: () => void | Promise<void>;
+
+  projectName?: string;
+
   loading?: boolean;
+
+  title?: string;
+
+  description?: string;
+
+  confirmText?: string;
+
+  cancelText?: string;
+
+  onConfirm: () => void | Promise<void>;
 }
 
 export function DeleteProjectDialog({
   open,
   onOpenChange,
+
   projectName,
-  onConfirm,
+
   loading = false,
+
+  title = "Delete Project",
+
+  description,
+
+  confirmText = "Delete Project",
+
+  cancelText = "Cancel",
+
+  onConfirm,
 }: DeleteProjectDialogProps) {
-  async function handleConfirm() {
-    await onConfirm();
-  }
+  const handleConfirm =
+    useCallback(async () => {
+      try {
+        await onConfirm();
+      } catch (error) {
+        console.error(error);
+      }
+    }, [onConfirm]);
 
   return (
     <AlertDialog
@@ -46,30 +76,49 @@ export function DeleteProjectDialog({
       }}
     >
       <AlertDialogContent className="sm:max-w-md">
+
         <AlertDialogHeader>
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
-            <AlertTriangle className="h-6 w-6" />
+
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-destructive/20 bg-destructive/10">
+            <AlertTriangle className="h-7 w-7 text-destructive" />
           </div>
 
           <AlertDialogTitle>
-            Delete Project
+            {title}
           </AlertDialogTitle>
 
-          <AlertDialogDescription className="leading-6">
-            You are about to permanently delete{" "}
-            <span className="font-semibold text-foreground">
-              &ldquo;{projectName || "this project"}&rdquo;
-            </span>
-            .
-            <br />
-            <br />
-            This action cannot be undone.
+          <AlertDialogDescription className="leading-7">
+
+            {description ?? (
+              <>
+                You are about to permanently delete{" "}
+                <span className="font-semibold text-foreground">
+                  &ldquo;
+                  {projectName ||
+                    "this project"}
+                  &rdquo;
+                </span>
+                .
+
+                <br />
+                <br />
+
+                This action cannot be undone and
+                all associated data will be
+                permanently removed.
+              </>
+            )}
+
           </AlertDialogDescription>
+
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={loading}>
-            Cancel
+
+          <AlertDialogCancel
+            disabled={loading}
+          >
+            {cancelText}
           </AlertDialogCancel>
 
           <AlertDialogAction
@@ -89,11 +138,13 @@ export function DeleteProjectDialog({
             ) : (
               <>
                 <Trash2 className="mr-2 h-4 w-4" />
-                Delete Project
+                {confirmText}
               </>
             )}
           </AlertDialogAction>
+
         </AlertDialogFooter>
+
       </AlertDialogContent>
     </AlertDialog>
   );

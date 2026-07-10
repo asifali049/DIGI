@@ -1,8 +1,8 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
+import { useSyncExternalStore } from "react";
 
 function useIsClient() {
   return useSyncExternalStore(
@@ -17,7 +17,7 @@ export function ThemeToggle() {
   const isClient = useIsClient();
 
   const buttonClassName =
-    "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500/50 active:scale-95 sm:h-11 sm:w-11";
+    "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background/70 text-foreground backdrop-blur-xl transition-all duration-300 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95 sm:h-11 sm:w-11";
 
   if (!isClient) {
     return (
@@ -26,7 +26,7 @@ export function ThemeToggle() {
         aria-label="Toggle theme"
         className={buttonClassName}
       >
-        <Moon className="h-4.5 w-4.5" />
+        <Moon className="h-[18px] w-[18px]" />
       </button>
     );
   }
@@ -37,13 +37,14 @@ export function ThemeToggle() {
     <button
       type="button"
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      aria-pressed={isDark}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={buttonClassName}
     >
       {isDark ? (
-        <Sun className="h-4.5 w-4.5" />
+        <Sun className="h-[18px] w-[18px] transition-transform duration-300 group-hover:rotate-12" />
       ) : (
-        <Moon className="h-4.5 w-4.5" />
+        <Moon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:-rotate-12" />
       )}
     </button>
   );

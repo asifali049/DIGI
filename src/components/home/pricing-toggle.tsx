@@ -13,12 +13,28 @@ export function PricingToggle({
   onChange,
 }: PricingToggleProps) {
   return (
-    <div className="inline-flex max-w-full items-center rounded-full border bg-background p-1 shadow-sm">
+    <div
+      role="tablist"
+      aria-label="Pricing plan"
+      className="
+        inline-flex
+        max-w-full
+        items-center
+        rounded-full
+        border
+        border-border
+        bg-card
+        p-1
+        shadow-sm
+      "
+    >
       <button
         type="button"
+        role="tab"
+        aria-selected={!yearly}
         onClick={() => onChange(false)}
         className={clsx(
-          "relative flex min-h-10 items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-6",
+          "relative flex min-h-10 items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-6",
           !yearly
             ? "text-primary-foreground"
             : "text-muted-foreground hover:text-foreground"
@@ -43,9 +59,11 @@ export function PricingToggle({
 
       <button
         type="button"
+        role="tab"
+        aria-selected={yearly}
         onClick={() => onChange(true)}
         className={clsx(
-          "relative flex min-h-10 items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-6",
+          "relative flex min-h-10 items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-6",
           yearly
             ? "text-primary-foreground"
             : "text-muted-foreground hover:text-foreground"
@@ -68,7 +86,20 @@ export function PricingToggle({
             Yearly
           </span>
 
-          <span className="rounded-full bg-green-500/15 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap text-green-600 dark:text-green-400 sm:text-xs">
+          <span
+            className="
+              whitespace-nowrap
+              rounded-full
+              bg-green-500/15
+              px-2
+              py-0.5
+              text-[10px]
+              font-semibold
+              text-green-700
+              dark:text-green-400
+              sm:text-xs
+            "
+          >
             Save 20%
           </span>
         </span>

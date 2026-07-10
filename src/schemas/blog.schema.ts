@@ -1,59 +1,95 @@
 import { z } from "zod";
 
+import type {
+  BlogCategorySlug,
+  BlogStatus,
+} from "@/types/blog";
+
+/* -------------------------------------------------------------------------- */
+/*                                  Constants                                 */
+/* -------------------------------------------------------------------------- */
+
+export const BLOG_CATEGORIES = [
+  "development",
+  "design",
+  "marketing",
+  "seo",
+  "business",
+  "technology",
+  "ai",
+  "startup",
+  "case-study",
+] as const satisfies readonly BlogCategorySlug[];
+
+export const BLOG_STATUSES = [
+  "draft",
+  "published",
+  "scheduled",
+  "archived",
+] as const satisfies readonly BlogStatus[];
+
+export const BLOG_LIMITS = {
+  title: 150,
+  excerpt: 300,
+  content: 100_000,
+  readingTime: 120,
+  tags: 10,
+  seoTitle: 70,
+  seoDescription: 160,
+} as const;
+
+const slugRegex =
+  /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+const imageRegex =
+  /^(https?:\/\/.+|\/.+)$/i;
+
 export const blogSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(3, "Title must be at least 3 characters.")
-    .max(150, "Title cannot exceed 150 characters."),
+    .min(3, "Title is required.")
+    .max(
+      BLOG_LIMITS.title,
+      `Maximum ${BLOG_LIMITS.title} characters.`
+    ),
 
   slug: z
     .string()
     .trim()
-    .min(3, "Slug must be at least 3 characters.")
-    .max(150)
     .regex(
-      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-      "Slug must contain only lowercase letters, numbers and hyphens."
+      slugRegex,
+      "Invalid slug format."
     ),
 
   excerpt: z
     .string()
     .trim()
-    .min(20, "Excerpt must be at least 20 characters.")
-    .max(300, "Excerpt cannot exceed 300 characters."),
+    .min(20)
+    .max(BLOG_LIMITS.excerpt),
 
   content: z
     .string()
     .trim()
-    .min(50, "Content must be at least 50 characters."),
+    .min(50)
+    .max(BLOG_LIMITS.content),
 
   coverImage: z
     .string()
-    .min(1, "Cover image is required."),
+    .trim()
+    .regex(
+      imageRegex,
+      "Invalid image path."
+    ),
 
-  category: z.enum([
-    "development",
-    "design",
-    "marketing",
-    "seo",
-    "business",
-    "technology",
-    "ai",
-    "startup",
-    "case-study",
-  ]),
+  category: z.enum(BLOG_CATEGORIES),
 
-  status: z.enum([
-    "draft",
-    "published",
-    "scheduled",
-    "archived",
-  ]),
+  status: z.enum(BLOG_STATUSES),
 
   tags: z
-    .array(z.string())
-    .min(1, "Add at least one tag."),
+    .array(z.string().trim().min(1))
+    .min(1)
+    .max(BLOG_LIMITS.tags),
 
   featured: z.boolean(),
 
@@ -61,31 +97,128 @@ export const blogSchema = z.object({
 
   author: z
     .string()
-    .min(2, "Author is required."),
+    .trim()
+    .min(2)
+    .max(60),
 
   readingTime: z
     .number()
-    .min(1, "Reading time must be at least 1 minute."),
+    .int()
+    .min(1)
+    .max(BLOG_LIMITS.readingTime),
 
   seoTitle: z
     .string()
-    .min(3, "SEO title is required."),
+    .trim()
+    .min(3)
+    .max(BLOG_LIMITS.seoTitle),
 
   seoDescription: z
     .string()
-    .min(20, "SEO description is required.")
-    .max(160, "SEO description cannot exceed 160 characters."),
+    .trim()
+    .min(20)
+    .max(BLOG_LIMITS.seoDescription),
 
   canonicalUrl: z
     .string()
-    .url("Enter a valid URL.")
+    .trim()
+    .url()
     .optional()
     .or(z.literal("")),
 
   publishedAt: z
     .string()
-    .optional()
-    .or(z.literal("")),
-});
+    .optional(),
+}); 
+/* -------------------------------------------------------------------------- */
+/*                              Business Rules                                */
+/* -------------------------------------------------------------------------- */
 
-export type BlogFormValues = z.infer<typeof blogSchema>;
+export const blogFormSchema =
+  blogSchema.superRefine(
+    (data, ctx) => {
+      if (
+        data.published &&
+        data.status !== "published"
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["status"],
+          message:
+            "Published articles must have Published status.",
+        });
+      }
+
+      if (
+        data.status === "published" &&
+        !data.publishedAt
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["publishedAt"],
+          message:
+            "Publish date is required.",
+        });
+      }
+
+      if (
+        data.canonicalUrl &&
+        !data.canonicalUrl.includes(data.slug)
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["canonicalUrl"],
+          message:
+            "Canonical URL should include the article slug.",
+        });
+      }
+    }
+  ); 
+  /* -------------------------------------------------------------------------- */
+/*                                   Types                                    */
+/* -------------------------------------------------------------------------- */
+
+export type BlogFormValues =
+  z.infer<typeof blogFormSchema>;
+
+export type BlogSchema =
+  typeof blogFormSchema;
+
+  /* -------------------------------------------------------------------------- */
+/*                              Default Values                                */
+/* -------------------------------------------------------------------------- */
+
+export const DEFAULT_BLOG_FORM_VALUES: BlogFormValues =
+  {
+    title: "",
+
+    slug: "",
+
+    excerpt: "",
+
+    content: "",
+
+    coverImage: "",
+
+    category: "development",
+
+    status: "draft",
+
+    tags: [],
+
+    featured: false,
+
+    published: false,
+
+    author: "",
+
+    readingTime: 5,
+
+    seoTitle: "",
+
+    seoDescription: "",
+
+    canonicalUrl: "",
+
+    publishedAt: "",
+  };

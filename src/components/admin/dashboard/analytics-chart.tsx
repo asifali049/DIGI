@@ -10,7 +10,34 @@ import {
   YAxis,
 } from "recharts";
 
-const data = [
+/* -------------------------------------------------------------------------- */
+/* Types                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export interface AnalyticsData {
+  month: string;
+  visitors: number;
+}
+
+interface AnalyticsChartProps {
+  data?: AnalyticsData[];
+  loading?: boolean;
+}
+
+import type {
+  TooltipProps,
+} from "recharts";
+
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
+
+/* -------------------------------------------------------------------------- */
+/* Default Data                                                               */
+/* -------------------------------------------------------------------------- */
+
+const defaultData: AnalyticsData[] = [
   { month: "Jan", visitors: 4200 },
   { month: "Feb", visitors: 5100 },
   { month: "Mar", visitors: 4700 },
@@ -20,9 +47,78 @@ const data = [
   { month: "Jul", visitors: 10200 },
 ];
 
-export function AnalyticsChart() {
+/* -------------------------------------------------------------------------- */
+
+function formatVisitors(value: number) {
+  return new Intl.NumberFormat("en", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value);
+}
+
+/* -------------------------------------------------------------------------- */
+
+interface CustomTooltipProps {
+  active?: boolean;
+
+  label?: string | number;
+
+  payload?: {
+    value: number;
+    name: string;
+    color?: string;
+  }[];
+}
+
+function CustomTooltip({
+  active,
+  payload,
+  label,
+}: CustomTooltipProps) {
+  if (!active || !payload?.length) {
+    return null;
+  }
+
   return (
-    <div className="h-70 w-full sm:h-80 lg:h-87.5">
+    <div className="rounded-xl border bg-popover p-3 shadow-lg">
+      <p className="text-sm font-medium">
+        {label}
+      </p>
+
+      <p className="mt-1 text-sm font-medium text-primary">
+        {formatVisitors(payload[0].value)} visitors
+      </p>
+    </div>
+  );
+}
+/* -------------------------------------------------------------------------- */
+
+export function AnalyticsChart({
+  data = defaultData,
+  loading = false,
+}: AnalyticsChartProps) {
+  if (loading) {
+    return (
+      <div className="flex h-[350px] items-center justify-center rounded-xl border">
+        <span className="text-sm text-muted-foreground">
+          Loading analytics...
+        </span>
+      </div>
+    );
+  }
+
+  if (!data.length) {
+    return (
+      <div className="flex h-[350px] items-center justify-center rounded-xl border">
+        <span className="text-sm text-muted-foreground">
+          No analytics available.
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-[320px] w-full sm:h-[360px] lg:h-[420px]">
       <ResponsiveContainer
         width="100%"
         height="100%"
@@ -30,15 +126,15 @@ export function AnalyticsChart() {
         <AreaChart
           data={data}
           margin={{
-            top: 12,
+            top: 16,
             right: 12,
-            left: -24,
+            left: -20,
             bottom: 0,
           }}
         >
           <defs>
             <linearGradient
-              id="analyticsGradient"
+              id="analytics-gradient"
               x1="0"
               y1="0"
               x2="0"
@@ -70,34 +166,38 @@ export function AnalyticsChart() {
             axisLine={false}
             tickMargin={10}
             minTickGap={20}
-            className="text-[11px] sm:text-xs"
+            className="text-xs"
           />
 
           <YAxis
+            tickFormatter={
+              formatVisitors
+            }
             tickLine={false}
             axisLine={false}
             tickMargin={8}
-            width={42}
-            className="text-[11px] sm:text-xs"
+            width={46}
+            className="text-xs"
           />
 
           <Tooltip
             cursor={{
-              strokeDasharray: "4 4",
+              strokeDasharray:
+                "4 4",
             }}
-            contentStyle={{
-              borderRadius: 16,
-            }}
+            content={
+              <CustomTooltip />
+            }
           />
 
           <Area
             type="monotone"
             dataKey="visitors"
             stroke="currentColor"
-            strokeWidth={2.5}
-            fill="url(#analyticsGradient)"
+            strokeWidth={3}
+            fill="url(#analytics-gradient)"
             activeDot={{
-              r: 5,
+              r: 6,
             }}
           />
         </AreaChart>

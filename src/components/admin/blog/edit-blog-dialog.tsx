@@ -1,22 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 import type { BlogPost } from "@/types/blog";
+import type { BlogFormValues } from "./blog-schema";
+
+import { BlogForm } from "./blog-form";
 
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import { BlogForm } from "./blog-form";
-import type { BlogFormValues } from "./blog-schema";
 
 interface EditBlogDialogProps {
   post: BlogPost;
@@ -28,54 +29,70 @@ export function EditBlogDialog({
   trigger,
 }: EditBlogDialogProps) {
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(
-    values: BlogFormValues
-  ) {
-    try {
-      setIsSubmitting(true);
+  const [isPending, startTransition] =
+    useTransition();
 
-      console.log({
-        id: post.id,
-        ...values,
+  const handleOpenChange = useCallback(
+    (value: boolean) => {
+      setOpen(value);
+    },
+    []
+  );
+
+  const handleSubmit = useCallback(
+    (values: BlogFormValues) => {
+      startTransition(async () => {
+        try {
+          console.log({
+            id: post.id,
+            ...values,
+          });
+
+          // TODO:
+          // Replace with Server Action / API Mutation
+
+          await new Promise((resolve) =>
+            setTimeout(resolve, 1000)
+          );
+
+          toast.success(
+            "Blog updated successfully."
+          );
+
+          setOpen(false);
+        } catch {
+          toast.error(
+            "Unable to update the blog."
+          );
+        }
       });
-
-      // TODO:
-      // Replace with Server Action / API
-
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1000)
-      );
-
-      toast.success("Blog updated successfully.");
-
-      setOpen(false);
-    } catch {
-      toast.error("Failed to update blog.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+    },
+    [post.id]
+  );
 
   return (
     <Dialog
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={handleOpenChange}
     >
       <DialogTrigger asChild>
         {trigger ?? (
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Edit blog"
+            aria-label={`Edit "${post.title}"`}
           >
-            <Pencil className="h-4 w-4" />
+            <Pencil
+              aria-hidden="true"
+              className="h-4 w-4"
+            />
           </Button>
         )}
       </DialogTrigger>
 
       <DialogContent
+        aria-busy={isPending}
         className="
           max-h-[90dvh]
           w-[calc(100vw-2rem)]
@@ -89,9 +106,14 @@ export function EditBlogDialog({
           <DialogTitle className="text-xl sm:text-2xl">
             Edit Blog
           </DialogTitle>
+
+          <DialogDescription>
+            Update the blog details,
+            content and SEO information.
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="mt-2">
+        <div className="mt-4">
           <BlogForm
             defaultValues={{
               title: post.title,
@@ -100,25 +122,29 @@ export function EditBlogDialog({
               content: post.content ?? "",
               coverImage: post.coverImage,
 
-              // BlogCategory -> string
               category: post.category.slug,
 
-              // Optional
-              status: post.status ?? "draft",
+              status:
+                post.status ?? "draft",
 
-              tags: post.tags,
+              tags: [...post.tags],
+
               featured: post.featured,
-              published: post.published ?? false,
 
-              // BlogAuthor -> string
+              published:
+                post.published ?? false,
+
               author: post.author.name,
 
-              readingTime: post.readingTime,
+              readingTime:
+                post.readingTime,
 
-              // SEO
-              seoTitle: post.seo?.metaTitle ?? "",
+              seoTitle:
+                post.seo?.metaTitle ?? "",
+
               seoDescription:
-                post.seo?.metaDescription ?? "",
+                post.seo
+                  ?.metaDescription ?? "",
 
               canonicalUrl:
                 post.canonicalUrl ?? "",
@@ -127,7 +153,7 @@ export function EditBlogDialog({
                 post.publishedAt ?? "",
             }}
             onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
+            isSubmitting={isPending}
           />
         </div>
       </DialogContent>

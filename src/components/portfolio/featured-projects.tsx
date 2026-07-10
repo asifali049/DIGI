@@ -1,7 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+} from "framer-motion";
 
 import { portfolio } from "@/constants/portfolio";
 import { ProjectCard } from "./project-card";
@@ -17,6 +21,8 @@ const categories = [
 ] as const;
 
 export function FeaturedProjects() {
+  const shouldReduceMotion = useReducedMotion();
+
   const [activeCategory, setActiveCategory] =
     useState<(typeof categories)[number]>("All");
 
@@ -33,14 +39,20 @@ export function FeaturedProjects() {
   }, [activeCategory]);
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 lg:py-32">
+    <section
+      aria-labelledby="featured-projects-heading"
+      className="py-16 sm:py-20 md:py-24 lg:py-32"
+    >
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex rounded-full border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+          <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
             Featured Work
           </span>
 
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-balance sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2
+            id="featured-projects-heading"
+            className="mt-5 text-balance text-3xl font-bold tracking-tight sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl"
+          >
             Selected Projects
           </h2>
 
@@ -50,52 +62,101 @@ export function FeaturedProjects() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-2 sm:mt-12 sm:gap-3">
-          {categories.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setActiveCategory(category)}
-              className={`rounded-full border px-4 py-2 text-xs font-medium transition-all sm:px-5 sm:text-sm ${
-                activeCategory === category
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:border-primary"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        <div
+          className="mt-10 flex flex-wrap justify-center gap-2 sm:mt-12 sm:gap-3"
+          role="tablist"
+          aria-label="Project categories"
+        >
+          {categories.map((category) => {
+            const isActive = activeCategory === category;
+
+            return (
+              <button
+                key={category}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveCategory(category)}
+                className={[
+                  "rounded-full border border-border px-4 py-2 text-xs font-medium transition-all",
+                  "min-h-10 whitespace-nowrap",
+                  "focus-visible:outline-none",
+                  "focus-visible:ring-2",
+                  "focus-visible:ring-primary",
+                  "focus-visible:ring-offset-2",
+                  "sm:px-5 sm:text-sm",
+                  isActive
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:border-primary",
+                ].join(" ")}
+              >
+                {category}
+              </button>
+            );
+          })}
         </div>
 
         <motion.div
-          layout
+          layout={!shouldReduceMotion}
           className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:gap-6 lg:mt-14 lg:grid-cols-2 lg:gap-8"
         >
           <AnimatePresence mode="popLayout">
-            {projects.map((project) => (
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  layout={!shouldReduceMotion}
+                  initial={
+                    shouldReduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          scale: 0.95,
+                        }
+                  }
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  exit={
+                    shouldReduceMotion
+                      ? undefined
+                      : {
+                          opacity: 0,
+                          scale: 0.95,
+                        }
+                  }
+                  transition={{
+                    duration: 0.35,
+                  }}
+                  className="h-full"
+                >
+                  <ProjectCard {...project} />
+                </motion.div>
+              ))
+            ) : (
               <motion.div
-                layout
-                key={project.id}
-                initial={{
-                  opacity: 0,
-                  scale: 0.95,
-                }}
+                className="col-span-full rounded-2xl border border-border bg-card p-10 text-center"
+                initial={
+                  shouldReduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                      }
+                }
                 animate={{
                   opacity: 1,
-                  scale: 1,
                 }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.95,
-                }}
-                transition={{
-                  duration: 0.35,
-                }}
-                className="h-full"
               >
-                <ProjectCard {...project} />
+                <h3 className="text-lg font-semibold">
+                  No featured projects found
+                </h3>
+
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Try selecting another category.
+                </p>
               </motion.div>
-            ))}
+            )}
           </AnimatePresence>
         </motion.div>
       </div>

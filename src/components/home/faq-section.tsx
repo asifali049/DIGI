@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { FAQItem } from "./faq-item";
 
@@ -39,27 +39,80 @@ const faqs = [
 ];
 
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number>(0);
+  const [openIndex, setOpenIndex] = useState(0);
+
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section className="relative py-16 sm:py-20 lg:py-24">
       <div className="container mx-auto max-w-4xl px-4 sm:px-6">
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 25,
+                }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          transition={{
+            duration: 0.5,
+          }}
           className="mb-10 text-center sm:mb-12 lg:mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.25em] text-primary sm:text-sm sm:tracking-[0.3em]">
+          <span
+            className="
+              inline-flex
+              items-center
+              rounded-full
+              border
+              border-primary/20
+              bg-primary/10
+              px-3
+              py-1.5
+              text-xs
+              font-semibold
+              tracking-[0.25em]
+              text-primary
+              sm:px-4
+              sm:py-2
+              sm:text-sm
+            "
+          >
             FAQ
           </span>
 
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+          <h2
+            className="
+              mt-4
+              text-3xl
+              font-black
+              tracking-tight
+              text-foreground
+              sm:text-4xl
+              lg:text-5xl
+            "
+          >
             Frequently Asked Questions
           </h2>
 
-          <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base">
+          <p
+            className="
+              mt-5
+              text-sm
+              leading-7
+              text-muted-foreground
+              sm:text-base
+            "
+          >
             Everything you need to know before starting your project with us.
           </p>
         </motion.div>
@@ -72,7 +125,9 @@ export function FAQSection() {
               answer={faq.answer}
               open={openIndex === index}
               onToggle={() =>
-                setOpenIndex(openIndex === index ? -1 : index)
+                setOpenIndex(
+                  openIndex === index ? -1 : index
+                )
               }
             />
           ))}

@@ -1,24 +1,44 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function PortfolioHero() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden border-b">
-      <div className="absolute inset-0 bg-liner-to-b from-primary/5 via-transparent to-transparent" />
+    <section
+      aria-labelledby="portfolio-heading"
+      className="relative overflow-hidden border-b"
+    >
+      <div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent" />
 
       <div className="container relative py-16 sm:py-20 md:py-28 lg:py-36">
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 32,
+                }
+          }
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.7,
+          }}
           className="mx-auto max-w-4xl text-center"
         >
-          <span className="inline-flex rounded-full border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+          <span className="inline-flex shrink-0 rounded-full border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
             Our Portfolio
           </span>
 
-          <h1 className="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1
+            id="portfolio-heading"
+            className="mt-6 text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+          >
             Building Digital
             <br />
             Products That
@@ -32,43 +52,43 @@ export function PortfolioHero() {
             experiences.
           </p>
 
-          <div className="mt-12 grid grid-cols-2 gap-6 sm:gap-8 md:mt-16 md:grid-cols-4">
+          <dl className="mt-12 grid grid-cols-2 gap-6 sm:gap-8 md:mt-16 md:grid-cols-4">
             <div className="min-w-0">
-              <h3 className="text-2xl font-bold sm:text-3xl">
-                150+
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <dt className="text-sm leading-6 text-muted-foreground">
                 Projects Delivered
-              </p>
+              </dt>
+              <dd className="mt-2 text-2xl font-bold sm:text-3xl">
+                150+
+              </dd>
             </div>
 
             <div className="min-w-0">
-              <h3 className="text-2xl font-bold sm:text-3xl">
-                30+
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <dt className="text-sm leading-6 text-muted-foreground">
                 Industries
-              </p>
+              </dt>
+              <dd className="mt-2 text-2xl font-bold sm:text-3xl">
+                30+
+              </dd>
             </div>
 
             <div className="min-w-0">
-              <h3 className="text-2xl font-bold sm:text-3xl">
-                98%
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <dt className="text-sm leading-6 text-muted-foreground">
                 Client Satisfaction
-              </p>
+              </dt>
+              <dd className="mt-2 text-2xl font-bold sm:text-3xl">
+                98%
+              </dd>
             </div>
 
             <div className="min-w-0">
-              <h3 className="text-2xl font-bold sm:text-3xl">
-                12+
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <dt className="text-sm leading-6 text-muted-foreground">
                 Countries
-              </p>
+              </dt>
+              <dd className="mt-2 text-2xl font-bold sm:text-3xl">
+                12+
+              </dd>
             </div>
-          </div>
+          </dl>
         </motion.div>
       </div>
     </section>

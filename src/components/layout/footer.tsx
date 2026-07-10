@@ -53,7 +53,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t bg-background">
+    <footer className="relative border-t border-border bg-background">
       <div className="container mx-auto px-4 py-16 sm:px-6 sm:py-20">
         <div className="grid gap-10 sm:gap-12 md:grid-cols-2 xl:grid-cols-4">
           {/* Brand */}
@@ -100,7 +100,7 @@ export function Footer() {
                     href={item.href}
                     target="_blank"
                     aria-label={item.label}
-                    className="flex h-11 w-11 items-center justify-center rounded-xl border transition-all hover:-translate-y-1 hover:bg-accent"
+                    className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground transition-all duration-300 hover:-translate-y-1 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                   >
                     <Icon className="h-5 w-5" />
                   </Link>
@@ -164,7 +164,7 @@ export function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="h-12 w-full rounded-xl border bg-background px-4 text-sm outline-none transition focus:border-primary sm:text-base"
+                className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-base"
               />
 
               <button

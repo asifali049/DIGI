@@ -11,14 +11,20 @@ import { serviceFaq } from "@/constants/service-faq";
 
 export function ServiceFaq() {
   return (
-    <section className="py-16 sm:py-20 md:py-24 lg:py-32">
+    <section
+      aria-labelledby="service-faq-heading"
+      className="py-16 sm:py-20 md:py-24 lg:py-32"
+    >
       <div className="container max-w-4xl">
         <div className="mb-12 text-center sm:mb-16">
-          <span className="inline-flex rounded-full border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+          <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
             FAQ
           </span>
 
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-balance sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2
+            id="service-faq-heading"
+            className="mt-5 text-balance text-3xl font-bold tracking-tight sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl"
+          >
             Frequently Asked Questions
           </h2>
 
@@ -33,11 +39,11 @@ export function ServiceFaq() {
           collapsible
           className="space-y-3 sm:space-y-4"
         >
-          {serviceFaq.map((item, index) => (
+          {serviceFaq.map((item) => (
             <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className="rounded-2xl border px-4 sm:px-6"
+              key={item.question}
+              value={item.question}
+              className="rounded-2xl border border-border px-4 sm:px-6"
             >
               <AccordionTrigger className="py-5 text-left text-base leading-6 sm:text-lg">
                 {item.question}

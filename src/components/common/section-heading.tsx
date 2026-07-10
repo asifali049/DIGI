@@ -1,8 +1,11 @@
+import { cn } from "@/lib/utils";
+
 interface SectionHeadingProps {
   badge?: string;
   title: string;
   description?: string;
   center?: boolean;
+  className?: string;
 }
 
 export function SectionHeading({
@@ -10,25 +13,59 @@ export function SectionHeading({
   title,
   description,
   center = false,
+  className,
 }: SectionHeadingProps) {
   return (
     <div
-      className={`max-w-3xl ${
-        center ? "mx-auto text-center" : ""
-      }`}
+      className={cn(
+        "max-w-3xl",
+        center && "mx-auto text-center",
+        className
+      )}
     >
       {badge && (
-        <span className="inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1 text-sm font-medium text-violet-400">
+        <span
+          className="
+            inline-flex items-center
+            rounded-full
+            border border-primary/20
+            bg-primary/10
+            px-4 py-1
+            text-xs font-semibold
+            tracking-wide
+            text-primary
+            sm:text-sm
+          "
+        >
           {badge}
         </span>
       )}
 
-      <h2 className="mt-4 text-4xl font-black text-white md:text-5xl">
+      <h2
+        className="
+          mt-4
+          text-3xl
+          font-black
+          tracking-tight
+          text-foreground
+          sm:text-4xl
+          lg:text-5xl
+        "
+      >
         {title}
       </h2>
 
       {description && (
-        <p className="mt-5 text-lg leading-8 text-zinc-400">
+        <p
+          className="
+            mt-5
+            text-base
+            leading-7
+            text-muted-foreground
+            sm:text-lg
+            sm:leading-8
+          "
+        >
           {description}
         </p>
       )}

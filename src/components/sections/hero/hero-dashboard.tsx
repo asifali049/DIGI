@@ -38,7 +38,7 @@ export function HeroDashboard() {
               initial={{ height: 0 }}
               animate={{ height }}
               transition={{ delay: index * 0.08 }}
-              className="flex-1 rounded-full bg-liner-to-t from-violet-600 to-cyan-400"
+              className="flex-1 rounded-full bg-gradient-to-t from-violet-600 to-cyan-400"
             />
           ))}
         </div>

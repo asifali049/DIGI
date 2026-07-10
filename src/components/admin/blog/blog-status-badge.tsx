@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui";
 import { cn } from "@/lib/utils";
+
 import type { BlogStatus } from "@/types/blog";
 
 interface BlogStatusBadgeProps {
@@ -7,13 +8,7 @@ interface BlogStatusBadgeProps {
   className?: string;
 }
 
-const statusConfig: Record<
-  BlogStatus,
-  {
-    label: string;
-    className: string;
-  }
-> = {
+const STATUS_CONFIG = {
   draft: {
     label: "Draft",
     className:
@@ -37,25 +32,33 @@ const statusConfig: Record<
     className:
       "border-amber-300 bg-amber-100 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
   },
-};
+} as const satisfies Record<
+  BlogStatus,
+  {
+    label: string;
+    className: string;
+  }
+>;
 
 export function BlogStatusBadge({
   status,
   className,
 }: BlogStatusBadgeProps) {
-  const config = statusConfig[status];
+  const { label, className: statusClassName } =
+    STATUS_CONFIG[status];
 
   return (
     <Badge
       variant="outline"
-      aria-label={`Status: ${config.label}`}
+      role="status"
+      aria-label={`Blog status: ${label}`}
       className={cn(
-        "inline-flex min-w-24 justify-center whitespace-nowrap rounded-full border px-3 py-1 text-xs font-semibold tracking-wide",
-        config.className,
+        "inline-flex min-w-24 items-center justify-center whitespace-nowrap rounded-full border px-3 py-1 text-center text-xs font-semibold tracking-wide",
+        statusClassName,
         className
       )}
     >
-      {config.label}
+      {label}
     </Badge>
   );
 }

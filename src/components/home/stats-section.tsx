@@ -76,7 +76,14 @@ function Counter({
   return (
     <span
       ref={ref}
-      className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
+      className="
+        text-4xl
+        font-black
+        tracking-tight
+        text-foreground
+        sm:text-5xl
+        lg:text-6xl
+        "
     >
       0
     </span>

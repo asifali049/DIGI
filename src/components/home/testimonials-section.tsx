@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import {
   Testimonial,
@@ -35,25 +35,68 @@ const testimonials: Testimonial[] = [
 ];
 
 export function TestimonialsSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="py-16 sm:py-20 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : { opacity: 0, y: 30 }
+          }
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
           className="mx-auto mb-10 max-w-3xl text-center sm:mb-12 lg:mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground sm:text-sm sm:tracking-[0.3em]">
+          <span
+            className="
+              inline-flex
+              items-center
+              rounded-full
+              border
+              border-primary/20
+              bg-primary/10
+              px-3
+              py-1.5
+              text-xs
+              font-semibold
+              tracking-[0.25em]
+              text-primary
+              sm:px-4
+              sm:py-2
+              sm:text-sm
+            "
+          >
             Testimonials
           </span>
 
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+          <h2
+            className="
+              mt-4
+              text-3xl
+              font-black
+              tracking-tight
+              text-foreground
+              sm:text-4xl
+              lg:text-5xl
+            "
+          >
             Loved by founders and businesses.
           </h2>
 
-          <p className="mt-5 text-sm leading-7 text-muted-foreground sm:mt-6 sm:text-base">
+          <p
+            className="
+              mt-5
+              text-sm
+              leading-7
+              text-muted-foreground
+              sm:mt-6
+              sm:text-base
+            "
+          >
             We build premium digital experiences that help businesses grow
             faster.
           </p>
@@ -63,13 +106,17 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
-              initial={{ opacity: 0, y: 40 }}
+              initial={
+                shouldReduceMotion
+                  ? false
+                  : { opacity: 0, y: 40 }
+              }
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{
                 duration: 0.5,
-                delay: index * 0.15,
+                delay: shouldReduceMotion ? 0 : index * 0.15,
               }}
-              viewport={{ once: true }}
               className="h-full"
             >
               <TestimonialCard testimonial={testimonial} />

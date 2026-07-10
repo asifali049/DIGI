@@ -31,12 +31,29 @@ export function LogoMarquee() {
             Trusted Technologies
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl lg:text-5xl">
+          <h2
+            className="
+              mt-3
+              text-3xl
+              font-black
+              tracking-tight
+              text-foreground
+              sm:text-4xl
+              lg:text-5xl
+            "
+          >
             Powered by Industry Leaders
           </h2>
         </div>
 
-        <div className="relative overflow-hidden">
+        <div
+          className="
+            relative
+            overflow-hidden
+            [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]
+            [-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]
+          "
+        >
           <div className="flex w-max animate-marquee gap-4 sm:gap-8 lg:gap-12">
             {items.map((logo, index) => (
               <div
@@ -48,7 +65,18 @@ export function LogoMarquee() {
                   alt={logo.name}
                   width={120}
                   height={40}
-                  className="h-8 w-auto object-contain opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-10"
+                  className="
+                    h-8
+                    w-auto
+                    object-contain
+                    opacity-70
+                    grayscale
+                    transition-all
+                    duration-300
+                    group-hover:grayscale-0
+                    group-hover:opacity-100
+                    sm:h-10
+                  "
                 />
               </div>
             ))}
