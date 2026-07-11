@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 
 import { cn } from "@/lib/utils";
 
@@ -21,7 +21,7 @@ export function ShimmerButton({
   return (
     <Comp
       className={cn(
-        "group relative inline-flex items-center justify-center overflow-hidden rounded-2xl",
+        "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl",
         "bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500",
         "px-8 py-4",
         "font-semibold",
@@ -56,9 +56,7 @@ export function ShimmerButton({
         "
       />
 
-      <span className="relative z-10 inline-flex items-center gap-2">
-        {children}
-      </span>
+      <Slottable>{children}</Slottable>
     </Comp>
   );
 }

@@ -21,15 +21,13 @@ export async function getSearchIndex(): Promise<SearchDocument[]> {
     title: post.title,
     excerpt: post.excerpt,
 
-    // BlogPost doesn't have `description`
     description:
-      post.seoDescription ??
-      post.seo?.metaDescription ??
+      post.seo.metaDescription ??
       post.excerpt,
 
     category: post.category.name,
 
-    tags: post.tags,
+    tags: [...post.tags],
 
     publishedAt: post.publishedAt ?? "",
 

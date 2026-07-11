@@ -22,7 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export interface DataTableOptions<TData> {
+export interface DataTableOptions {
   state?: {
     sorting?: SortingState;
   };
@@ -38,7 +38,7 @@ interface DataTableProps<TData extends object> {
 
   emptyMessage?: string;
 
-  options?: DataTableOptions<TData>;
+  options?: DataTableOptions;
 }
 
 export function DataTable<TData extends object>({

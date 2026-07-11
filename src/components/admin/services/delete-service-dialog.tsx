@@ -82,7 +82,7 @@ export function DeleteServiceDialog({
         title="Delete Service"
         description={`Are you sure you want to permanently delete "${service.title}"? This action cannot be undone.`}
         confirmText="Delete"
-        destructive
+        variant="destructive"
         onConfirm={handleDelete}
       />
     </>

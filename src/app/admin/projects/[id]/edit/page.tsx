@@ -32,6 +32,9 @@ export default function EditProjectPage({
     client: project.client,
     description: project.description,
     category: project.category,
+    liveUrl: project.liveUrl ?? "",
+    githubUrl: project.githubUrl ?? "",
+    thumbnail: project.thumbnail,
     featured: project.featured,
     published: project.published,
   };

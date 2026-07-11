@@ -1,0 +1,603 @@
+diff --git a/package.json b/package.json
+index afc488d..53f4cf9 100644
+--- a/package.json
++++ b/package.json
+@@ -66,6 +66,7 @@
+     "remark-parse": "^11.0.0",
+     "remark-rehype": "^11.1.2",
+     "shadcn": "^4.13.0",
++    "shiki": "^4.3.1",
+     "sonner": "^2.0.7",
+     "tailwind-merge": "^3.6.0",
+     "tw-animate-css": "^1.4.0",
+diff --git a/public/site.webmanifest b/public/site.webmanifest
+new file mode 100644
+index 0000000..4ea3ae6
+--- /dev/null
++++ b/public/site.webmanifest
+@@ -0,0 +1,21 @@
++{
++  "name": "Premium Digital Agency",
++  "short_name": "PDA",
++  "description": "Premium Digital Agency specializing in Web Development, UI/UX Design, Branding, SEO, AI Solutions, SaaS Development, and Digital Marketing.",
++  "start_url": "/",
++  "display": "standalone",
++  "background_color": "#0a0a0a",
++  "theme_color": "#0a0a0a",
++  "icons": [
++    {
++      "src": "/icon-192.png",
++      "sizes": "192x192",
++      "type": "image/png"
++    },
++    {
++      "src": "/icon-512.png",
++      "sizes": "512x512",
++      "type": "image/png"
++    }
++  ]
++}
+diff --git a/src/app/admin/projects/[id]/edit/page.tsx b/src/app/admin/projects/[id]/edit/page.tsx
+index f24c7da..4ab9c90 100644
+--- a/src/app/admin/projects/[id]/edit/page.tsx
++++ b/src/app/admin/projects/[id]/edit/page.tsx
+@@ -32,6 +32,9 @@ export default function EditProjectPage({
+     client: project.client,
+     description: project.description,
+     category: project.category,
++    liveUrl: project.liveUrl ?? "",
++    githubUrl: project.githubUrl ?? "",
++    thumbnail: project.thumbnail,
+     featured: project.featured,
+     published: project.published,
+   };
+diff --git a/src/app/blog/[slug]/not-found.tsx b/src/app/blog/[slug]/not-found.tsx
+index a49f7cb..a397c24 100644
+--- a/src/app/blog/[slug]/not-found.tsx
++++ b/src/app/blog/[slug]/not-found.tsx
+@@ -17,7 +17,7 @@ export default function NotFound() {
+           </h1>
+ 
+           <p className="mt-6 text-lg text-muted-foreground">
+-            The article you're looking for doesn't exist, has been removed,
++            The article you&apos;re looking for doesn&apos;t exist, has been removed,
+             or the URL is incorrect.
+           </p>
+ 
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index b57c337..6390b47 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -36,6 +36,7 @@ import { CookieBanner } from "@/components/common/cookie-banner";
+ /* -------------------------------------------------------------------------- */
+ 
+ import { Footer } from "@/components/layout/footer";
++import { Header } from "@/components/layout/header";
+ 
+ /* -------------------------------------------------------------------------- */
+ /* Providers */
+@@ -396,6 +397,8 @@ export default function RootLayout({
+             {/* ------------------------------------------------------------------ */}
+ 
+             <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
++              <Header />
++
+               <main
+                 id="main-content"
+                 tabIndex={-1}
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index ee7fd1c..a0a42b1 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -1,4 +1,3 @@
+-import { LayoutShell } from "@/components/layout";
+ import { Hero } from "@/components/sections/hero";
+ import { Services } from "@/components/sections/services";
+ import { WhyUs } from "@/components/sections/why-us";
+@@ -18,7 +17,7 @@ import { Reveal } from "@/components/common/reveal";
+ 
+ export default function HomePage() {
+   return (
+-    <LayoutShell>
++    <>
+       <Hero />
+       <Services />
+       <WhyUs />
+@@ -37,7 +36,7 @@ export default function HomePage() {
+       </Reveal>
+       <FAQSection />
+       <CTABanner />
+-    </LayoutShell>
++    </>
+ 
+   );
+ }
+\ No newline at end of file
+diff --git a/src/components/admin/blog/blog-preview-sheet.tsx b/src/components/admin/blog/blog-preview-sheet.tsx
+index c417a56..110e29e 100644
+--- a/src/components/admin/blog/blog-preview-sheet.tsx
++++ b/src/components/admin/blog/blog-preview-sheet.tsx
+@@ -251,32 +251,30 @@ export function BlogPreviewSheet({
+ 
+             <div className="rounded-2xl border bg-background p-6">
+               <p className="truncate text-xs text-green-600 dark:text-green-400">
+-                {post.canonicalUrl ??
++                {post.seo.canonicalUrl ??
+                   "https://example.com/blog/" +
+                     post.slug}
+               </p>
+ 
+               <h4 className="mt-2 line-clamp-2 text-xl font-medium text-blue-600 dark:text-blue-400">
+-                {post.seo?.metaTitle ??
+-                  post.seoTitle ??
++                {post.seo.metaTitle ??
+                   post.title}
+               </h4>
+ 
+               <p className="mt-2 line-clamp-3 leading-7 text-muted-foreground">
+-                {post.seo?.metaDescription ??
+-                  post.seoDescription ??
++                {post.seo.metaDescription ??
+                   post.excerpt}
+               </p>
+             </div>
+ 
+-            {post.canonicalUrl && (
++            {post.seo.canonicalUrl && (
+               <div>
+                 <h4 className="font-semibold">
+                   Canonical URL
+                 </h4>
+ 
+                 <p className="mt-2 break-all text-sm text-primary">
+-                  {post.canonicalUrl}
++                  {post.seo.canonicalUrl}
+                 </p>
+               </div>
+             )}
+diff --git a/src/components/admin/blog/create-blog-dialog.tsx b/src/components/admin/blog/create-blog-dialog.tsx
+index 058409f..83b6216 100644
+--- a/src/components/admin/blog/create-blog-dialog.tsx
++++ b/src/components/admin/blog/create-blog-dialog.tsx
+@@ -9,8 +9,8 @@ import {
+ import { Plus } from "lucide-react";
+ import { toast } from "sonner";
+ 
+-import { BlogForm } from "./blog-form";
+-import type { BlogFormValues } from "./blog-schema";
++import { BlogEditorForm } from "./blog-editor-form";
++import type { BlogFormValues } from "@/schemas/blog.schema";
+ 
+ import { Button } from "@/components/ui/button";
+ import {
+@@ -96,9 +96,9 @@ export function CreateBlogDialog() {
+         </DialogHeader>
+ 
+         <div className="mt-4">
+-          <BlogForm
++          <BlogEditorForm
++            mode="create"
+             onSubmit={handleSubmit}
+-            isSubmitting={isPending}
+           />
+         </div>
+       </DialogContent>
+diff --git a/src/components/admin/blog/edit-blog-dialog.tsx b/src/components/admin/blog/edit-blog-dialog.tsx
+index 84e4f71..04c813d 100644
+--- a/src/components/admin/blog/edit-blog-dialog.tsx
++++ b/src/components/admin/blog/edit-blog-dialog.tsx
+@@ -5,9 +5,9 @@ import { Pencil } from "lucide-react";
+ import { toast } from "sonner";
+ 
+ import type { BlogPost } from "@/types/blog";
+-import type { BlogFormValues } from "./blog-schema";
++import type { BlogFormValues } from "@/schemas/blog.schema";
+ 
+-import { BlogForm } from "./blog-form";
++import { BlogEditorForm } from "./blog-editor-form";
+ 
+ import { Button } from "@/components/ui/button";
+ import {
+@@ -114,46 +114,10 @@ export function EditBlogDialog({
+         </DialogHeader>
+ 
+         <div className="mt-4">
+-          <BlogForm
+-            defaultValues={{
+-              title: post.title,
+-              slug: post.slug,
+-              excerpt: post.excerpt,
+-              content: post.content ?? "",
+-              coverImage: post.coverImage,
+-
+-              category: post.category.slug,
+-
+-              status:
+-                post.status ?? "draft",
+-
+-              tags: [...post.tags],
+-
+-              featured: post.featured,
+-
+-              published:
+-                post.published ?? false,
+-
+-              author: post.author.name,
+-
+-              readingTime:
+-                post.readingTime,
+-
+-              seoTitle:
+-                post.seo?.metaTitle ?? "",
+-
+-              seoDescription:
+-                post.seo
+-                  ?.metaDescription ?? "",
+-
+-              canonicalUrl:
+-                post.canonicalUrl ?? "",
+-
+-              publishedAt:
+-                post.publishedAt ?? "",
+-            }}
++          <BlogEditorForm
++            mode="edit"
++            initialData={post}
+             onSubmit={handleSubmit}
+-            isSubmitting={isPending}
+           />
+         </div>
+       </DialogContent>
+diff --git a/src/components/admin/dashboard/analytics-chart.tsx b/src/components/admin/dashboard/analytics-chart.tsx
+index 6e498a4..7752c31 100644
+--- a/src/components/admin/dashboard/analytics-chart.tsx
++++ b/src/components/admin/dashboard/analytics-chart.tsx
+@@ -24,15 +24,6 @@ interface AnalyticsChartProps {
+   loading?: boolean;
+ }
+ 
+-import type {
+-  TooltipProps,
+-} from "recharts";
+-
+-import type {
+-  NameType,
+-  ValueType,
+-} from "recharts/types/component/DefaultTooltipContent";
+-
+ /* -------------------------------------------------------------------------- */
+ /* Default Data                                                               */
+ /* -------------------------------------------------------------------------- */
+diff --git a/src/components/admin/services/delete-service-dialog.tsx b/src/components/admin/services/delete-service-dialog.tsx
+index 27a73e7..0b274d1 100644
+--- a/src/components/admin/services/delete-service-dialog.tsx
++++ b/src/components/admin/services/delete-service-dialog.tsx
+@@ -82,7 +82,7 @@ export function DeleteServiceDialog({
+         title="Delete Service"
+         description={`Are you sure you want to permanently delete "${service.title}"? This action cannot be undone.`}
+         confirmText="Delete"
+-        destructive
++        variant="destructive"
+         onConfirm={handleDelete}
+       />
+     </>
+diff --git a/src/components/admin/testimonials/delete-testimonial-dialog.tsx b/src/components/admin/testimonials/delete-testimonial-dialog.tsx
+index 44487f8..b931a6e 100644
+--- a/src/components/admin/testimonials/delete-testimonial-dialog.tsx
++++ b/src/components/admin/testimonials/delete-testimonial-dialog.tsx
+@@ -69,7 +69,7 @@ export function DeleteTestimonialDialog({
+         title="Delete Testimonial"
+         description={`Are you sure you want to permanently delete the testimonial from "${testimonial.name}"? This action cannot be undone.`}
+         confirmText="Delete"
+-        destructive
++        variant="destructive"
+         onConfirm={handleDelete}
+       />
+     </>
+diff --git a/src/components/common/custom-cursor.tsx b/src/components/common/custom-cursor.tsx
+index 2fecb3b..81bd29e 100644
+--- a/src/components/common/custom-cursor.tsx
++++ b/src/components/common/custom-cursor.tsx
+@@ -8,7 +8,11 @@ import {
+ } from "framer-motion";
+ import { useEffect } from "react";
+ 
++import { useMounted } from "@/hooks/use-mounted";
++
+ export function CustomCursor() {
++  const mounted = useMounted();
++
+   const shouldReduceMotion = useReducedMotion();
+ 
+   const mouseX = useMotionValue(-100);
+@@ -51,7 +55,7 @@ export function CustomCursor() {
+     };
+   }, [mouseX, mouseY, shouldReduceMotion]);
+ 
+-  if (shouldReduceMotion) {
++  if (!mounted || shouldReduceMotion) {
+     return null;
+   }
+ 
+diff --git a/src/components/common/mouse-glow.tsx b/src/components/common/mouse-glow.tsx
+index 7ea2866..88c8316 100644
+--- a/src/components/common/mouse-glow.tsx
++++ b/src/components/common/mouse-glow.tsx
+@@ -1,16 +1,14 @@
+ "use client";
+ 
+ import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+-import { useEffect, useState } from "react";
++import { useEffect } from "react";
++
++import { useMounted } from "@/hooks/use-mounted";
+ 
+ export function MouseGlow() {
+-  const shouldReduceMotion = useReducedMotion();
+-  const isEnabled =
+-  !shouldReduceMotion &&
+-  typeof window !== "undefined" &&
+-  !window.matchMedia("(pointer: coarse)").matches;
++  const mounted = useMounted();
+ 
+-  
++  const shouldReduceMotion = useReducedMotion();
+ 
+   const mouseX = useMotionValue(-500);
+   const mouseY = useMotionValue(-500);
+@@ -51,6 +49,11 @@ export function MouseGlow() {
+     };
+   }, [mouseX, mouseY, shouldReduceMotion]);
+ 
++  const isEnabled =
++    mounted &&
++    !shouldReduceMotion &&
++    !window.matchMedia("(pointer: coarse)").matches;
++
+   if (!isEnabled) {
+   return null;
+ }
+diff --git a/src/components/sections/why-us/feature-card.tsx b/src/components/sections/why-us/feature-card.tsx
+index 847918d..49793e5 100644
+--- a/src/components/sections/why-us/feature-card.tsx
++++ b/src/components/sections/why-us/feature-card.tsx
+@@ -12,16 +12,16 @@ export function FeatureCard({
+   description,
+ }: Props) {
+   return (
+-    <div className="group h-full rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-violet-500/40 sm:p-7 lg:p-8">
++    <div className="group h-full rounded-3xl border border-border bg-card/60 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-violet-500/40 sm:p-7 lg:p-8">
+       <div className="mb-5 inline-flex rounded-2xl bg-violet-500/10 p-3 sm:mb-6 sm:p-4">
+-        <Icon className="h-7 w-7 text-violet-400 sm:h-8 sm:w-8" />
++        <Icon className="h-7 w-7 text-violet-500 dark:text-violet-400 sm:h-8 sm:w-8" />
+       </div>
+ 
+-      <h3 className="text-xl font-bold leading-tight text-white sm:text-2xl">
++      <h3 className="text-xl font-bold leading-tight text-foreground sm:text-2xl">
+         {title}
+       </h3>
+ 
+-      <p className="mt-3 text-sm leading-7 text-zinc-400 sm:mt-4 sm:text-base">
++      <p className="mt-3 text-sm leading-7 text-muted-foreground sm:mt-4 sm:text-base">
+         {description}
+       </p>
+     </div>
+diff --git a/src/components/ui/data-table.tsx b/src/components/ui/data-table.tsx
+index 1798aed..f7af753 100644
+--- a/src/components/ui/data-table.tsx
++++ b/src/components/ui/data-table.tsx
+@@ -22,7 +22,7 @@ import {
+   TableRow,
+ } from "@/components/ui/table";
+ 
+-export interface DataTableOptions<TData> {
++export interface DataTableOptions {
+   state?: {
+     sorting?: SortingState;
+   };
+@@ -38,7 +38,7 @@ interface DataTableProps<TData extends object> {
+ 
+   emptyMessage?: string;
+ 
+-  options?: DataTableOptions<TData>;
++  options?: DataTableOptions;
+ }
+ 
+ export function DataTable<TData extends object>({
+diff --git a/src/components/ui/shimmer-button.tsx b/src/components/ui/shimmer-button.tsx
+index ced5953..23aa9be 100644
+--- a/src/components/ui/shimmer-button.tsx
++++ b/src/components/ui/shimmer-button.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import * as React from "react";
+-import { Slot } from "@radix-ui/react-slot";
++import { Slot, Slottable } from "@radix-ui/react-slot";
+ 
+ import { cn } from "@/lib/utils";
+ 
+@@ -21,7 +21,7 @@ export function ShimmerButton({
+   return (
+     <Comp
+       className={cn(
+-        "group relative inline-flex items-center justify-center overflow-hidden rounded-2xl",
++        "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl",
+         "bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500",
+         "px-8 py-4",
+         "font-semibold",
+@@ -56,9 +56,7 @@ export function ShimmerButton({
+         "
+       />
+ 
+-      <span className="relative z-10 inline-flex items-center gap-2">
+-        {children}
+-      </span>
++      <Slottable>{children}</Slottable>
+     </Comp>
+   );
+ }
+\ No newline at end of file
+diff --git a/src/constants/blog-data.ts b/src/constants/blog-data.ts
+index 9adcd39..c01c1dc 100644
+--- a/src/constants/blog-data.ts
++++ b/src/constants/blog-data.ts
+@@ -91,10 +91,6 @@ SEO strategies and scalable architecture.
+       },
+     },
+ 
+-    // Backward compatibility
+-    canonicalUrl:
+-      "https://example.com/blog/nextjs-15-high-performance-websites",
+-
+     publishedAt: "2026-07-01",
+ 
+     createdAt: "2026-06-25",
+@@ -189,9 +185,6 @@ color systems and accessibility.
+       },
+     },
+ 
+-    canonicalUrl:
+-      "https://example.com/blog/modern-ui-design-principles",
+-
+     createdAt: "2026-06-28",
+ 
+     updatedAt: "2026-07-02",
+@@ -286,9 +279,6 @@ Let's explore modern SEO strategies.
+       },
+     },
+ 
+-    canonicalUrl:
+-      "https://example.com/blog/seo-best-practices-2026",
+-
+     publishedAt: "2026-08-01",
+ 
+     createdAt: "2026-07-01",
+diff --git a/src/content/types.ts b/src/content/types.ts
+index e0f10d0..1504d2e 100644
+--- a/src/content/types.ts
++++ b/src/content/types.ts
+@@ -5,7 +5,7 @@ export interface BaseContent {
+   title: string;
+ }
+ 
+-export interface BlogCollection extends BlogPost {}
++export type BlogCollection = BlogPost;
+ 
+ export interface PortfolioCollection extends BaseContent {
+   excerpt: string;
+diff --git a/src/hooks/use-mounted.ts b/src/hooks/use-mounted.ts
+new file mode 100644
+index 0000000..bf4a34d
+--- /dev/null
++++ b/src/hooks/use-mounted.ts
+@@ -0,0 +1,28 @@
++import { useSyncExternalStore } from "react";
++
++/**
++ * Returns `true` only after the component has mounted on the
++ * client, and `false` during SSR / the very first client render.
++ *
++ * Used to gate client-only visuals (e.g. mouse-follower cursors,
++ * spring-animated elements) whose values cannot be computed on
++ * the server, without causing a hydration mismatch.
++ *
++ * Implemented with `useSyncExternalStore` (React's recommended
++ * primitive for this exact case) instead of a `useState` +
++ * `useEffect(() => setMounted(true), [])` pattern, which the
++ * `react-hooks/set-state-in-effect` rule flags because it causes
++ * an avoidable cascading re-render on mount.
++ */
++const emptySubscribe = () => () => {};
++
++const getClientSnapshot = () => true;
++const getServerSnapshot = () => false;
++
++export function useMounted(): boolean {
++  return useSyncExternalStore(
++    emptySubscribe,
++    getClientSnapshot,
++    getServerSnapshot
++  );
++}
+diff --git a/src/lib/search.ts b/src/lib/search.ts
+index 3567e75..1191458 100644
+--- a/src/lib/search.ts
++++ b/src/lib/search.ts
+@@ -21,15 +21,13 @@ export async function getSearchIndex(): Promise<SearchDocument[]> {
+     title: post.title,
+     excerpt: post.excerpt,
+ 
+-    // BlogPost doesn't have `description`
+     description:
+-      post.seoDescription ??
+-      post.seo?.metaDescription ??
++      post.seo.metaDescription ??
+       post.excerpt,
+ 
+     category: post.category.name,
+ 
+-    tags: post.tags,
++    tags: [...post.tags],
+ 
+     publishedAt: post.publishedAt ?? "",
+ 
+diff --git a/src/providers/theme-provider.tsx b/src/providers/theme-provider.tsx
+index 1fc2988..bcbfdd6 100644
+--- a/src/providers/theme-provider.tsx
++++ b/src/providers/theme-provider.tsx
+@@ -6,6 +6,54 @@ import {
+   type ThemeProviderProps,
+ } from "next-themes";
+ 
++/**
++ * next-themes injects an inline `<script>` tag (via
++ * `React.createElement("script", ...)`) to set the theme
++ * class on `<html>` before hydration, preventing a
++ * flash-of-unstyled-content (FOUC). This is a long-standing,
++ * intentional SSR pattern and the script still runs correctly.
++ *
++ * React 19 (used by Next.js 16.2+) added a dev-only warning
++ * for any `<script>` rendered inside a component tree. This
++ * is a known false positive for next-themes — the library
++ * has not shipped a fix since March 2025.
++ *
++ * Reference: https://github.com/pacocoursey/next-themes/issues/385
++ *
++ * We filter only this exact, known-benign warning so real
++ * console errors are never hidden.
++ */
++if (
++  typeof window !== "undefined" &&
++  !window.__nextThemesScriptWarningPatched
++) {
++  window.__nextThemesScriptWarningPatched = true;
++
++  const originalConsoleError = console.error;
++
++  console.error = (...args: unknown[]) => {
++    const [firstArg] = args;
++
++    const isNextThemesScriptWarning =
++      typeof firstArg === "string" &&
++      firstArg.includes(
++        "Encountered a script tag while rendering React component"
++      );
++
++    if (isNextThemesScriptWarning) {
++      return;
++    }
++
++    originalConsoleError(...args);
++  };
++}
++
++declare global {
++  interface Window {
++    __nextThemesScriptWarningPatched?: boolean;
++  }
++}
++
+ export function ThemeProvider({
+   children,
+   ...props

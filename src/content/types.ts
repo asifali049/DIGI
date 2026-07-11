@@ -5,7 +5,7 @@ export interface BaseContent {
   title: string;
 }
 
-export interface BlogCollection extends BlogPost {}
+export type BlogCollection = BlogPost;
 
 export interface PortfolioCollection extends BaseContent {
   excerpt: string;

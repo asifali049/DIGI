@@ -9,8 +9,8 @@ import {
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { BlogForm } from "./blog-form";
-import type { BlogFormValues } from "./blog-schema";
+import { BlogEditorForm } from "./blog-editor-form";
+import type { BlogFormValues } from "@/schemas/blog.schema";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -96,9 +96,9 @@ export function CreateBlogDialog() {
         </DialogHeader>
 
         <div className="mt-4">
-          <BlogForm
+          <BlogEditorForm
+            mode="create"
             onSubmit={handleSubmit}
-            isSubmitting={isPending}
           />
         </div>
       </DialogContent>

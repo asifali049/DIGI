@@ -91,10 +91,6 @@ SEO strategies and scalable architecture.
       },
     },
 
-    // Backward compatibility
-    canonicalUrl:
-      "https://example.com/blog/nextjs-15-high-performance-websites",
-
     publishedAt: "2026-07-01",
 
     createdAt: "2026-06-25",
@@ -189,9 +185,6 @@ color systems and accessibility.
       },
     },
 
-    canonicalUrl:
-      "https://example.com/blog/modern-ui-design-principles",
-
     createdAt: "2026-06-28",
 
     updatedAt: "2026-07-02",
@@ -285,9 +278,6 @@ Let's explore modern SEO strategies.
         image: "/images/blog/seo.jpg",
       },
     },
-
-    canonicalUrl:
-      "https://example.com/blog/seo-best-practices-2026",
 
     publishedAt: "2026-08-01",
 

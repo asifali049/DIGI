@@ -251,32 +251,30 @@ export function BlogPreviewSheet({
 
             <div className="rounded-2xl border bg-background p-6">
               <p className="truncate text-xs text-green-600 dark:text-green-400">
-                {post.canonicalUrl ??
+                {post.seo.canonicalUrl ??
                   "https://example.com/blog/" +
                     post.slug}
               </p>
 
               <h4 className="mt-2 line-clamp-2 text-xl font-medium text-blue-600 dark:text-blue-400">
-                {post.seo?.metaTitle ??
-                  post.seoTitle ??
+                {post.seo.metaTitle ??
                   post.title}
               </h4>
 
               <p className="mt-2 line-clamp-3 leading-7 text-muted-foreground">
-                {post.seo?.metaDescription ??
-                  post.seoDescription ??
+                {post.seo.metaDescription ??
                   post.excerpt}
               </p>
             </div>
 
-            {post.canonicalUrl && (
+            {post.seo.canonicalUrl && (
               <div>
                 <h4 className="font-semibold">
                   Canonical URL
                 </h4>
 
                 <p className="mt-2 break-all text-sm text-primary">
-                  {post.canonicalUrl}
+                  {post.seo.canonicalUrl}
                 </p>
               </div>
             )}

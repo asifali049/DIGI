@@ -1,16 +1,14 @@
 "use client";
 
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
+import { useMounted } from "@/hooks/use-mounted";
 
 export function MouseGlow() {
-  const shouldReduceMotion = useReducedMotion();
-  const isEnabled =
-  !shouldReduceMotion &&
-  typeof window !== "undefined" &&
-  !window.matchMedia("(pointer: coarse)").matches;
+  const mounted = useMounted();
 
-  
+  const shouldReduceMotion = useReducedMotion();
 
   const mouseX = useMotionValue(-500);
   const mouseY = useMotionValue(-500);
@@ -50,6 +48,11 @@ export function MouseGlow() {
       window.removeEventListener("mousemove", handleMove);
     };
   }, [mouseX, mouseY, shouldReduceMotion]);
+
+  const isEnabled =
+    mounted &&
+    !shouldReduceMotion &&
+    !window.matchMedia("(pointer: coarse)").matches;
 
   if (!isEnabled) {
   return null;

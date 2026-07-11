@@ -8,7 +8,11 @@ import {
 } from "framer-motion";
 import { useEffect } from "react";
 
+import { useMounted } from "@/hooks/use-mounted";
+
 export function CustomCursor() {
+  const mounted = useMounted();
+
   const shouldReduceMotion = useReducedMotion();
 
   const mouseX = useMotionValue(-100);
@@ -51,7 +55,7 @@ export function CustomCursor() {
     };
   }, [mouseX, mouseY, shouldReduceMotion]);
 
-  if (shouldReduceMotion) {
+  if (!mounted || shouldReduceMotion) {
     return null;
   }
 

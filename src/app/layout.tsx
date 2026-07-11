@@ -36,6 +36,7 @@ import { CookieBanner } from "@/components/common/cookie-banner";
 /* -------------------------------------------------------------------------- */
 
 import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 
 /* -------------------------------------------------------------------------- */
 /* Providers */
@@ -328,31 +329,31 @@ export default function RootLayout({
           "supports-[overflow:clip]:overflow-x-clip"
         )}
       >
-        {/* ------------------------------------------------------------------ */}
-        {/* Skip Navigation */}
-        {/* ------------------------------------------------------------------ */}
+       {/* ------------------------------------------------------------------ */}
+{/* Skip Navigation */}
+{/* ------------------------------------------------------------------ */}
 
-        <a
-          href="#main-content"
-          className={cn(
-            "sr-only",
-            "focus:not-sr-only",
-            "focus:absolute",
-            "focus:left-4",
-            "focus:top-4",
-            "focus:z-[9999]",
-            "rounded-lg",
-            "bg-primary",
-            "px-4",
-            "py-2",
-            "text-sm",
-            "font-medium",
-            "text-primary-foreground",
-            "shadow-lg"
-          )}
-        >
-          Skip to content
-        </a>
+<a
+  href="#main-content"
+  className={cn(
+    "sr-only",
+    "focus:not-sr-only",
+    "focus:absolute",
+    "focus:left-4",
+    "focus:top-4",
+    "focus:z-[9999]",
+    "rounded-lg",
+    "bg-primary",
+    "px-4",
+    "py-2",
+    "text-sm",
+    "font-medium",
+    "text-primary-foreground",
+    "shadow-lg"
+  )}
+>
+  Skip to content
+</a>
 
         {/* ------------------------------------------------------------------ */}
         {/* Structured Data */}
@@ -396,6 +397,8 @@ export default function RootLayout({
             {/* ------------------------------------------------------------------ */}
 
             <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
+              <Header />
+
               <main
                 id="main-content"
                 tabIndex={-1}

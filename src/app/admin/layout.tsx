@@ -18,8 +18,7 @@ interface AdminLayoutProps {
 export default function AdminLayout({
   children,
 }: AdminLayoutProps) {
-  const [mobileSidebarOpen, setMobileSidebarOpen] =
-    useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">

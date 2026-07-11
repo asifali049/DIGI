@@ -38,14 +38,14 @@ export function ServicesHero() {
         className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent"
       />
 
-      <div className="container relative py-16 sm:py-20 md:py-28 lg:py-36">
+      <div className="container mx-auto relative py-20 sm:py-24 lg:py-32 xl:py-36">
         <motion.div
           initial={
             shouldReduceMotion
               ? false
               : {
                   opacity: 0,
-                  y: 30,
+                  y: 32,
                 }
           }
           whileInView={{
@@ -53,16 +53,19 @@ export function ServicesHero() {
             y: 0,
           }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mx-auto max-w-4xl text-center"
+          transition={{
+            duration: 0.7,
+            ease: "easeOut",
+          }}
+          className="mx-auto flex w-full max-w-5xl flex-col items-center text-center"
         >
-          <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium backdrop-blur sm:px-4 sm:text-sm">
+          <span className="inline-flex rounded-full border border-border bg-background/60 px-4 py-1 text-xs font-medium backdrop-blur-sm sm:text-sm">
             Premium Digital Services
           </span>
 
           <h1
             id="services-hero-heading"
-            className="mt-6 text-balance text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+            className="mt-6 max-w-4xl text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           >
             Digital Products
             <br />
@@ -70,14 +73,14 @@ export function ServicesHero() {
             <span className="text-primary"> Growth.</span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl px-1 text-base leading-7 text-muted-foreground sm:mt-8 sm:text-lg md:text-xl">
+          <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-8 sm:text-lg md:text-xl md:leading-8">
             We design and develop premium websites, SaaS platforms,
             mobile applications, eCommerce experiences, and custom
             software engineered for performance, scalability,
             accessibility, and business growth.
           </p>
 
-          <div className="mt-8 flex w-full flex-col items-stretch justify-center gap-3 sm:mt-10 sm:w-auto sm:flex-row sm:items-center sm:gap-4">
+          <div className="mt-10 flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
             <Button
               size="lg"
               className="w-full sm:w-auto"
@@ -91,24 +94,25 @@ export function ServicesHero() {
               className="w-full sm:w-auto"
             >
               View Portfolio
+
               <ArrowRight
                 aria-hidden="true"
-                className="ml-2 h-4 w-4 shrink-0"
+                className="ml-2 h-4 w-4"
               />
             </Button>
           </div>
 
-          <dl className="mt-12 grid grid-cols-2 gap-6 sm:gap-8 md:mt-16 md:grid-cols-4">
+          <dl className="mt-14 grid w-full max-w-5xl grid-cols-2 gap-8 border-t border-border pt-10 md:mt-16 md:grid-cols-4">
             {STATS.map((item) => (
               <div
                 key={item.label}
-                className="min-w-0"
+                className="flex flex-col items-center justify-center text-center"
               >
-                <dd className="text-2xl font-bold sm:text-3xl">
+                <dd className="text-3xl font-bold tracking-tight lg:text-4xl">
                   {item.number}
                 </dd>
 
-                <dt className="mt-2 text-sm leading-6 text-muted-foreground">
+                <dt className="mt-2 text-sm text-muted-foreground">
                   {item.label}
                 </dt>
               </div>

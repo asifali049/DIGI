@@ -5,9 +5,9 @@ import { Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 import type { BlogPost } from "@/types/blog";
-import type { BlogFormValues } from "./blog-schema";
+import type { BlogFormValues } from "@/schemas/blog.schema";
 
-import { BlogForm } from "./blog-form";
+import { BlogEditorForm } from "./blog-editor-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -114,46 +114,10 @@ export function EditBlogDialog({
         </DialogHeader>
 
         <div className="mt-4">
-          <BlogForm
-            defaultValues={{
-              title: post.title,
-              slug: post.slug,
-              excerpt: post.excerpt,
-              content: post.content ?? "",
-              coverImage: post.coverImage,
-
-              category: post.category.slug,
-
-              status:
-                post.status ?? "draft",
-
-              tags: [...post.tags],
-
-              featured: post.featured,
-
-              published:
-                post.published ?? false,
-
-              author: post.author.name,
-
-              readingTime:
-                post.readingTime,
-
-              seoTitle:
-                post.seo?.metaTitle ?? "",
-
-              seoDescription:
-                post.seo
-                  ?.metaDescription ?? "",
-
-              canonicalUrl:
-                post.canonicalUrl ?? "",
-
-              publishedAt:
-                post.publishedAt ?? "",
-            }}
+          <BlogEditorForm
+            mode="edit"
+            initialData={post}
             onSubmit={handleSubmit}
-            isSubmitting={isPending}
           />
         </div>
       </DialogContent>

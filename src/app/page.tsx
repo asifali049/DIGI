@@ -1,4 +1,3 @@
-import { LayoutShell } from "@/components/layout";
 import { Hero } from "@/components/sections/hero";
 import { Services } from "@/components/sections/services";
 import { WhyUs } from "@/components/sections/why-us";
@@ -18,7 +17,7 @@ import { Reveal } from "@/components/common/reveal";
 
 export default function HomePage() {
   return (
-    <LayoutShell>
+    <>
       <Hero />
       <Services />
       <WhyUs />
@@ -37,7 +36,7 @@ export default function HomePage() {
       </Reveal>
       <FAQSection />
       <CTABanner />
-    </LayoutShell>
+    </>
 
   );
 }

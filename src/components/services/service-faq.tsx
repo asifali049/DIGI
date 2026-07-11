@@ -13,22 +13,22 @@ export function ServiceFaq() {
   return (
     <section
       aria-labelledby="service-faq-heading"
-      className="py-16 sm:py-20 md:py-24 lg:py-32"
+      className="relative py-20 sm:py-24 lg:py-32"
     >
-      <div className="container max-w-4xl">
-        <div className="mb-12 text-center sm:mb-16">
-          <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+      <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mb-16 flex max-w-4xl flex-col items-center text-center lg:mb-20">
+          <span className="inline-flex rounded-full border border-border bg-background/60 px-4 py-1 text-xs font-medium backdrop-blur-sm sm:text-sm">
             FAQ
           </span>
 
           <h2
             id="service-faq-heading"
-            className="mt-5 text-balance text-3xl font-bold tracking-tight sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl"
+            className="mt-6 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
           >
             Frequently Asked Questions
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg md:leading-8">
             Answers to the most common questions about our services and
             development process.
           </p>
@@ -37,19 +37,31 @@ export function ServiceFaq() {
         <Accordion
           type="single"
           collapsible
-          className="space-y-3 sm:space-y-4"
+          className="space-y-4"
         >
           {serviceFaq.map((item) => (
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="rounded-2xl border border-border px-4 sm:px-6"
+              className="
+                overflow-hidden
+                rounded-2xl
+                border
+                border-border
+                bg-card/60
+                px-5
+                backdrop-blur-xl
+                transition-all
+                duration-300
+                hover:border-primary/30
+                sm:px-6
+              "
             >
-              <AccordionTrigger className="py-5 text-left text-base leading-6 sm:text-lg">
+              <AccordionTrigger className="py-6 text-left text-base font-medium leading-7 sm:text-lg">
                 {item.question}
               </AccordionTrigger>
 
-              <AccordionContent className="pb-5 text-sm leading-7 text-muted-foreground sm:text-base">
+              <AccordionContent className="pb-6 text-sm leading-7 text-muted-foreground sm:text-base md:leading-8">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>

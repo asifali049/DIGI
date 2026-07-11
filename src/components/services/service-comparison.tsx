@@ -11,28 +11,36 @@ export function ServiceComparison() {
   return (
     <section
       aria-labelledby="service-comparison-heading"
-      className="py-16 sm:py-20 md:py-24 lg:py-32"
+      className="relative py-20 sm:py-24 lg:py-32"
     >
-      <div className="container">
-        <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
-          <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mb-16 flex max-w-4xl flex-col items-center text-center lg:mb-20">
+          <span className="inline-flex rounded-full border border-border bg-background/60 px-4 py-1 text-xs font-medium backdrop-blur-sm sm:text-sm">
             Compare Solutions
           </span>
 
           <h2
             id="service-comparison-heading"
-            className="mt-5 text-balance text-3xl font-bold tracking-tight sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl"
+            className="mt-6 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
           >
             Choose the Right Solution
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg md:leading-8">
             Every business has different requirements. Here&apos;s a quick
             comparison to help you choose the best starting point.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-3 lg:gap-8">
+        <div
+          className="
+            grid
+            grid-cols-1
+            gap-6
+            lg:grid-cols-3
+            lg:gap-8
+          "
+        >
           {serviceComparison.map((service, index) => (
             <motion.article
               key={service.title}
@@ -48,10 +56,14 @@ export function ServiceComparison() {
                 opacity: 1,
                 y: 0,
               }}
-              viewport={{ once: true }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
               transition={{
                 duration: 0.5,
                 delay: shouldReduceMotion ? 0 : index * 0.08,
+                ease: "easeOut",
               }}
               whileHover={
                 shouldReduceMotion
@@ -60,13 +72,28 @@ export function ServiceComparison() {
                       y: -8,
                     }
               }
-              className="flex h-full flex-col rounded-3xl border border-border bg-background/70 p-6 backdrop-blur-xl transition-all duration-300 hover:border-primary/30 hover:shadow-2xl sm:p-8"
+              className="
+                flex
+                h-full
+                flex-col
+                rounded-3xl
+                border
+                border-border
+                bg-card/60
+                p-6
+                backdrop-blur-xl
+                transition-all
+                duration-300
+                hover:border-primary/30
+                hover:shadow-2xl
+                sm:p-8
+              "
             >
               <h3 className="text-balance text-xl font-semibold leading-tight sm:text-2xl">
                 {service.title}
               </h3>
 
-              <dl className="mt-4 space-y-3 text-sm leading-7 text-muted-foreground sm:text-base">
+              <dl className="mt-5 space-y-4 text-sm text-muted-foreground sm:text-base">
                 <div>
                   <dt className="inline font-semibold text-foreground">
                     Timeline:
@@ -82,7 +109,7 @@ export function ServiceComparison() {
                 </div>
               </dl>
 
-              <ul className="mt-6 flex flex-1 flex-col space-y-4 sm:mt-8">
+              <ul className="mt-8 flex flex-1 flex-col gap-4">
                 {service.includes.map((feature) => (
                   <li
                     key={feature}

@@ -10,33 +10,42 @@ export function TechnologyStack() {
   return (
     <section
       aria-labelledby="technology-stack-heading"
-      className="relative overflow-hidden py-16 sm:py-20 md:py-24 lg:py-32"
+      className="relative overflow-hidden py-20 sm:py-24 lg:py-32"
     >
+      {/* Background */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent"
       />
 
-      <div className="container relative">
-        <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
-          <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
+      <div className="container mx-auto relative px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mb-16 flex max-w-4xl flex-col items-center text-center lg:mb-20">
+          <span className="inline-flex rounded-full border border-border bg-background/60 px-4 py-1 text-xs font-medium backdrop-blur-sm sm:text-sm">
             Technology Stack
           </span>
 
           <h2
             id="technology-stack-heading"
-            className="mt-5 text-balance text-3xl font-bold tracking-tight sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl"
+            className="mt-6 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
           >
             Modern Technologies
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg md:leading-8">
             We use reliable, scalable, and future-proof technologies to build
             products that perform today and remain maintainable tomorrow.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2">
+        <div
+          className="
+            grid
+            grid-cols-1
+            gap-6
+            lg:grid-cols-2
+            lg:gap-8
+          "
+        >
           {technologyStack.map((group, index) => (
             <motion.article
               key={group.category}
@@ -52,10 +61,14 @@ export function TechnologyStack() {
                 opacity: 1,
                 y: 0,
               }}
-              viewport={{ once: true }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
               transition={{
                 duration: 0.5,
                 delay: shouldReduceMotion ? 0 : index * 0.08,
+                ease: "easeOut",
               }}
               whileHover={
                 shouldReduceMotion
@@ -64,13 +77,29 @@ export function TechnologyStack() {
                       y: -6,
                     }
               }
-              className="group flex h-full flex-col rounded-3xl border border-border bg-background/70 p-6 backdrop-blur-xl transition-all duration-300 hover:border-primary/30 hover:shadow-2xl sm:p-8"
+              className="
+                group
+                flex
+                h-full
+                flex-col
+                rounded-3xl
+                border
+                border-border
+                bg-card/60
+                p-6
+                backdrop-blur-xl
+                transition-all
+                duration-300
+                hover:border-primary/30
+                hover:shadow-2xl
+                sm:p-8
+              "
             >
               <h3 className="text-balance text-xl font-semibold leading-tight sm:text-2xl">
                 {group.category}
               </h3>
 
-              <ul className="mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
+              <ul className="mt-6 flex flex-wrap gap-3">
                 {group.technologies.map((tech) => (
                   <motion.li
                     key={tech}
@@ -78,10 +107,26 @@ export function TechnologyStack() {
                       shouldReduceMotion
                         ? undefined
                         : {
-                            scale: 1.08,
+                            scale: 1.06,
                           }
                     }
-                    className="list-none rounded-full border border-border bg-background px-3 py-2 text-center text-xs font-medium transition-colors hover:border-primary hover:text-primary sm:px-4 sm:text-sm"
+                    className="
+                      list-none
+                      rounded-full
+                      border
+                      border-border
+                      bg-background
+                      px-4
+                      py-2
+                      text-xs
+                      font-medium
+                      transition-all
+                      duration-300
+                      hover:border-primary
+                      hover:bg-primary/10
+                      hover:text-primary
+                      sm:text-sm
+                    "
                   >
                     {tech}
                   </motion.li>

@@ -69,7 +69,7 @@ export function DeleteTestimonialDialog({
         title="Delete Testimonial"
         description={`Are you sure you want to permanently delete the testimonial from "${testimonial.name}"? This action cannot be undone.`}
         confirmText="Delete"
-        destructive
+        variant="destructive"
         onConfirm={handleDelete}
       />
     </>

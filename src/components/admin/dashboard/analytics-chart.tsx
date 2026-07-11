@@ -24,15 +24,6 @@ interface AnalyticsChartProps {
   loading?: boolean;
 }
 
-import type {
-  TooltipProps,
-} from "recharts";
-
-import type {
-  NameType,
-  ValueType,
-} from "recharts/types/component/DefaultTooltipContent";
-
 /* -------------------------------------------------------------------------- */
 /* Default Data                                                               */
 /* -------------------------------------------------------------------------- */
