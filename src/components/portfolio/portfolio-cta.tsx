@@ -16,7 +16,7 @@ export function PortfolioCta() {
     >
       <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/10" />
 
-      <div className="container relative">
+      <div className="container mx-auto px-4 relative sm:px-6 lg:px-8">
         <motion.div
           initial={
             shouldReduceMotion

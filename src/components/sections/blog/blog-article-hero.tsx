@@ -22,7 +22,7 @@ export function BlogArticleHero({
 
   return (
     <section className="border-b border-border">
-      <div className="container py-16 sm:py-20 md:py-24 lg:py-32">
+      <div className="container mx-auto px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8 lg:py-32">
         {/* Breadcrumb */}
 
         <nav

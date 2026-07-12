@@ -58,7 +58,7 @@ export function ContactForm() {
       aria-labelledby="contact-form-heading"
       className="pb-16 sm:pb-20 md:pb-24"
     >
-      <div className="container max-w-4xl">
+      <div className="container mx-auto px-4 max-w-4xl sm:px-6 lg:px-8">
         <div className="rounded-[28px] border border-border bg-background/70 p-6 backdrop-blur-xl sm:rounded-4xl sm:p-8 md:p-12">
           <h2
             id="contact-form-heading"

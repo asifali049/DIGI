@@ -6,7 +6,7 @@ import { Button } from "@/components/ui";
 export default function NotFound() {
   return (
     <main className="flex min-h-[80vh] items-center">
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-primary/10">
             <SearchX className="h-12 w-12 text-primary" />

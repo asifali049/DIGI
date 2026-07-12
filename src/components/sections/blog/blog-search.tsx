@@ -16,7 +16,7 @@ export function BlogSearch({
 }: BlogSearchProps) {
   return (
     <section className="py-4 sm:py-6">
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl">
           <div className="relative">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground sm:left-5" />

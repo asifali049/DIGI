@@ -34,7 +34,7 @@ const author = {
 export function BlogAuthor() {
   return (
     <section className="py-16 sm:py-20 md:py-24 lg:py-28">
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}

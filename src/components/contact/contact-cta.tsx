@@ -15,7 +15,7 @@ export function ContactCta() {
       aria-labelledby="contact-cta-heading"
       className="pb-16 sm:pb-20 md:pb-24 lg:pb-32"
     >
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={
             shouldReduceMotion

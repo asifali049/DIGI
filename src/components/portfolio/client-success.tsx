@@ -13,7 +13,7 @@ export function ClientSuccess() {
       aria-labelledby="client-success-heading"
       className="py-16 sm:py-20 md:py-24 lg:py-32"
     >
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
           <span className="inline-flex rounded-full border border-border px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm">
             Client Success

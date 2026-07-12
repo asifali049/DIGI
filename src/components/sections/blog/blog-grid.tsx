@@ -13,7 +13,7 @@ export function BlogGrid({ posts }: BlogGridProps) {
       id="blog-grid"
       className="py-10 sm:py-12 md:py-16"
     >
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {posts.length > 0 ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-8">
             {posts.map((post) => (

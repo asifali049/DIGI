@@ -131,7 +131,7 @@ export default async function BlogArticlePage({
         {mdxPost.content}
       </BlogArticleContent>
 
-      <section className="container">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
         <BlogShare
           title={post.title}
           url={`${siteUrl}/blog/${post.slug}`}

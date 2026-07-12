@@ -15,7 +15,7 @@ export function ContactHero() {
         className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent"
       />
 
-      <div className="container relative py-16 sm:py-20 md:py-28 lg:py-36">
+      <div className="container mx-auto px-4 relative py-16 sm:px-6 sm:py-20 md:py-28 lg:px-8 lg:py-36">
         <motion.div
           initial={
             shouldReduceMotion

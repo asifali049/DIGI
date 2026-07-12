@@ -37,7 +37,7 @@ export function BlogHero() {
 
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(139,92,246,.14),transparent_60%)] dark:bg-[radial-gradient(circle_at_top,rgba(139,92,246,.18),transparent_60%)]" />
 
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}

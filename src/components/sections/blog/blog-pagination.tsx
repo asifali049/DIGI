@@ -29,7 +29,7 @@ export function BlogPagination({
       aria-label="Blog pagination"
       className="py-12 sm:py-16"
     >
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
           <Button
             variant="outline"

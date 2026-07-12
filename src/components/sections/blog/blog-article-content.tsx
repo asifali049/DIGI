@@ -13,7 +13,7 @@ export function BlogArticleContent({
   className,
 }: BlogArticleContentProps) {
   return (
-    <section className="container py-10 sm:py-12 lg:py-16">
+    <section className="container mx-auto px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
       <article
         className={cn(
           "prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert",

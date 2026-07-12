@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <main>
       <section className="border-b border-border">
-        <div className="container py-24 md:py-32">
+        <div className="container mx-auto px-4 py-24 sm:px-6 md:py-32 lg:px-8">
           <Skeleton className="mb-8 h-8 w-40 rounded-full" />
 
           <Skeleton className="h-14 w-full max-w-4xl" />
@@ -23,7 +23,7 @@ export default function Loading() {
         </div>
       </section>
 
-      <section className="container py-16">
+      <section className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl space-y-6">
           {Array.from({ length: 8 }).map((_, index) => (
             <Skeleton

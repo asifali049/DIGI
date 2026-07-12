@@ -18,7 +18,7 @@ export function BlogArticleNavigation({
 
   return (
     <section className="py-12 sm:py-14 md:py-16">
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
           {/* Previous */}
 
