@@ -6,7 +6,21 @@ import { ArrowRight } from "lucide-react";
 
 import { CTABackground } from "./cta-background";
 
-export function CTABanner() {
+interface CTABannerProps {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+}
+
+export function CTABanner({
+  eyebrow = "Let's Build Something Amazing",
+  title = "Transform your ideas into premium digital products.",
+  subtitle = "From websites and mobile apps to enterprise software, we design and develop fast, scalable, and beautiful digital experiences.",
+  primaryCta = { label: "Book Free Consultation", href: "/contact" },
+  secondaryCta = { label: "View Portfolio", href: "/portfolio" },
+}: CTABannerProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -72,7 +86,7 @@ export function CTABanner() {
                 sm:text-sm
               "
             >
-              Let&apos;s Build Something Amazing
+              {eyebrow}
             </span>
 
             <h2
@@ -88,7 +102,7 @@ export function CTABanner() {
                 xl:text-6xl
               "
             >
-              Transform your ideas into premium digital products.
+              {title}
             </h2>
 
             <p
@@ -105,9 +119,7 @@ export function CTABanner() {
                 lg:text-lg
               "
             >
-              From websites and mobile apps to enterprise software, we
-              design and develop fast, scalable, and beautiful digital
-              experiences.
+              {subtitle}
             </p>
 
             <div
@@ -122,7 +134,7 @@ export function CTABanner() {
               "
             >
               <Link
-                href="/contact"
+                href={primaryCta.href}
                 className="
                   inline-flex
                   min-h-12
@@ -150,13 +162,13 @@ export function CTABanner() {
                   sm:text-base
                 "
               >
-                Book Free Consultation
+                {primaryCta.label}
 
                 <ArrowRight className="h-4 w-4" />
               </Link>
 
               <Link
-                href="/portfolio"
+                href={secondaryCta.href}
                 className="
                   inline-flex
                   min-h-12
@@ -186,7 +198,7 @@ export function CTABanner() {
                   sm:text-base
                 "
               >
-                View Portfolio
+                {secondaryCta.label}
               </Link>
             </div>
           </div>

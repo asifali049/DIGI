@@ -5,7 +5,7 @@ export function ContactSchema() {
     name: "Digital Agency",
     url: "https://yourdomain.com",
     email: "hello@youragency.com",
-    telephone: "+91-9876543210",
+    telephone: "+91-7355769866",
     areaServed: "Worldwide",
     address: {
       "@type": "PostalAddress",

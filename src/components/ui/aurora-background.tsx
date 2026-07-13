@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export function AuroraBackground() {
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <motion.div
         animate={{
           x: [0, 120, 0],

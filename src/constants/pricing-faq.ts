@@ -5,33 +5,28 @@ export interface PricingFaqItem {
 
 export const pricingFaq: PricingFaqItem[] = [
   {
-    question: "Which plan is right for my business?",
+    question: "How long does a project take?",
     answer:
-      "Starter works well for a single landing page or marketing site. Professional is our most popular tier and fits most full web apps or SaaS products. Enterprise is built for large-scale, multi-team, or highly custom projects — talk to us and we'll help you pick.",
+      "Timelines depend on scope and package. A Basic website typically takes 5–7 business days, a Business site 10–15 business days, and Custom/Full Stack/Enterprise builds range from 3 weeks to a few months. We'll confirm an exact timeline once we understand your requirements.",
   },
   {
-    question: "Do you offer custom pricing outside these plans?",
+    question: "Can I upgrade my package later?",
     answer:
-      "Yes. These tiers cover most common project types, but every business is different. If your scope doesn't fit neatly into a plan, reach out and we'll put together a custom quote based on your requirements.",
+      "Yes. You can start with a smaller package and upgrade as your business grows. We'll scope the additional work transparently and only charge for the difference in features and effort.",
   },
   {
-    question: "What's included in post-launch support?",
+    question: "Do you offer ongoing maintenance?",
     answer:
-      "Post-launch support covers bug fixes, minor adjustments, and guidance on using your new product. It does not include new feature development — that can be scoped separately or covered under an ongoing maintenance retainer.",
+      "Yes. Every package includes an initial support window (7–30 days depending on tier), and you can continue with an optional monthly maintenance plan afterward for updates, monitoring, and minor changes.",
   },
   {
-    question: "Can I switch plans mid-project?",
+    question: "Will I own the source code?",
     answer:
-      "Yes. If your project scope grows while we're working together, we'll re-scope the remaining work and adjust pricing transparently before any additional work begins.",
+      "Yes, absolutely. Once the project is delivered and paid in full, you own 100% of the source code, design assets, and content — no licensing fees, no lock-in.",
   },
   {
-    question: "Do you require payment upfront?",
+    question: "Can you redesign my existing website?",
     answer:
-      "We typically split payment into milestones — an initial deposit to begin work, progress payments at key milestones, and a final payment on delivery. Enterprise engagements can be structured around monthly retainers instead.",
-  },
-  {
-    question: "What's the difference between monthly and yearly pricing?",
-    answer:
-      "Yearly pricing reflects an ongoing retainer relationship (for maintenance, support, and continuous improvements) at a discounted rate compared to paying month-to-month. One-off projects are typically billed as a fixed project fee, which we'll confirm during scoping.",
+      "Yes. We regularly take over existing websites for redesigns, migrations, and performance overhauls. Share your current site and goals, and we'll recommend the right package.",
   },
 ];

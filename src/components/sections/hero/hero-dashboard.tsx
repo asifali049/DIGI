@@ -13,17 +13,17 @@ export function HeroDashboard() {
       transition={{ duration: 0.8 }}
       className="relative mx-auto w-full max-w-xl"
     >
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_20px_80px_rgba(0,0,0,.35)] backdrop-blur-2xl sm:p-6">
+      <div className="rounded-3xl border border-border bg-card/60 p-4 shadow-[0_20px_80px_rgba(0,0,0,.35)] backdrop-blur-2xl sm:p-6">
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4 sm:mb-8 sm:flex-nowrap sm:items-center">
           <div>
-            <p className="text-sm text-zinc-400">Monthly Revenue</p>
+            <p className="text-sm text-muted-foreground">Monthly Revenue</p>
 
-            <h2 className="mt-2 text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-bold text-foreground sm:text-4xl">
               $148,420
             </h2>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2 rounded-xl bg-emerald-500/20 px-3 py-2 text-sm text-emerald-400 sm:px-4">
+          <div className="flex shrink-0 items-center gap-2 rounded-xl bg-emerald-500/20 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400 sm:px-4">
             <ArrowUpRight className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
             <span>18.2%</span>
           </div>
@@ -46,28 +46,28 @@ export function HeroDashboard() {
         <div className="space-y-5 sm:space-y-6">
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-sm text-zinc-400 sm:text-base">
+              <span className="text-sm text-muted-foreground sm:text-base">
                 Project Completion
               </span>
 
-              <span className="text-sm text-white sm:text-base">78%</span>
+              <span className="text-sm text-foreground sm:text-base">78%</span>
             </div>
 
-            <div className="h-3 rounded-full bg-white/10">
+            <div className="h-3 rounded-full bg-muted">
               <div className="h-full w-[78%] rounded-full bg-violet-500" />
             </div>
           </div>
 
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-sm text-zinc-400 sm:text-base">
+              <span className="text-sm text-muted-foreground sm:text-base">
                 Client Satisfaction
               </span>
 
-              <span className="text-sm text-white sm:text-base">98%</span>
+              <span className="text-sm text-foreground sm:text-base">98%</span>
             </div>
 
-            <div className="h-3 rounded-full bg-white/10">
+            <div className="h-3 rounded-full bg-muted">
               <div className="h-full w-[98%] rounded-full bg-cyan-500" />
             </div>
           </div>
@@ -82,14 +82,14 @@ export function HeroDashboard() {
           duration: 5,
           repeat: Infinity,
         }}
-        className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-black/60 p-4 backdrop-blur-xl sm:absolute sm:-left-10 sm:bottom-8 sm:mt-0 sm:block"
+        className="mt-4 flex items-center gap-4 rounded-2xl border border-border bg-card/90 p-4 shadow-xl backdrop-blur-xl sm:absolute sm:-left-10 sm:bottom-8 sm:mt-0 sm:block"
       >
-        <Users className="mb-0 text-cyan-400 sm:mb-2" />
+        <Users className="mb-0 text-cyan-500 dark:text-cyan-400 sm:mb-2" />
 
         <div>
-          <p className="text-sm text-zinc-400">Active Clients</p>
+          <p className="text-sm text-muted-foreground">Active Clients</p>
 
-          <h4 className="text-xl font-bold text-white sm:text-2xl">
+          <h4 className="text-xl font-bold text-foreground sm:text-2xl">
             128+
           </h4>
         </div>
@@ -101,14 +101,14 @@ export function HeroDashboard() {
           duration: 4,
           repeat: Infinity,
         }}
-        className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-black/60 p-4 backdrop-blur-xl sm:absolute sm:-right-8 sm:top-12 sm:mt-0 sm:block"
+        className="mt-4 flex items-center gap-4 rounded-2xl border border-border bg-card/90 p-4 shadow-xl backdrop-blur-xl sm:absolute sm:-right-8 sm:top-12 sm:mt-0 sm:block"
       >
-        <Bell className="mb-0 text-yellow-400 sm:mb-2" />
+        <Bell className="mb-0 text-yellow-500 dark:text-yellow-400 sm:mb-2" />
 
         <div>
-          <p className="text-sm text-zinc-400">New Orders</p>
+          <p className="text-sm text-muted-foreground">New Orders</p>
 
-          <h4 className="text-xl font-bold text-white sm:text-2xl">
+          <h4 className="text-xl font-bold text-foreground sm:text-2xl">
             24
           </h4>
         </div>

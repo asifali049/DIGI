@@ -17,15 +17,15 @@ export const contactInfo = [
   {
     icon: Phone,
     title: "Phone",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91 73557 69866",
+    href: "tel:+917355769866",
     description: "Mon – Sat, 9:00 AM – 7:00 PM",
   },
   {
     icon: MessageCircle,
     title: "WhatsApp",
     value: "Chat with us",
-    href: "https://wa.me/919876543210",
+    href: "https://wa.me/917355769866",
     description: "Quick support & project discussion.",
   },
   {

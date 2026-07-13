@@ -22,6 +22,7 @@ import {
 /* -------------------------------------------------------------------------- */
 
 import { ScrollProgress } from "@/components/common/scroll-progress";
+import { GlobalBackground } from "@/components/common/global-background";
 import { LoadingScreen } from "@/components/common/loading-screen";
 import { MouseGlow } from "@/components/common/mouse-glow";
 import { CustomCursor } from "@/components/common/custom-cursor";
@@ -178,18 +179,6 @@ export const metadata: Metadata = {
     },
   },
 
-  icons: {
-    icon: [
-      {
-        url: "/favicon.ico",
-      },
-    ],
-
-    shortcut: "/favicon.ico",
-
-    apple: "/apple-touch-icon.png",
-  },
-
   manifest: "/site.webmanifest",
 
   openGraph: {
@@ -266,11 +255,11 @@ const organizationJsonLd = {
 
   email: "hello@example.com",
 
-  telephone: "+91-0000000000",
+  telephone: "+91-7355769866",
 
   sameAs: [
     "https://github.com/",
-    "https://linkedin.com/",
+    "https://linkedin.com/in/asif-ali-2185b4216",
     "https://twitter.com/",
     "https://instagram.com/",
   ],
@@ -397,6 +386,8 @@ export default function RootLayout({
             {/* ------------------------------------------------------------------ */}
 
             <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
+              <GlobalBackground />
+
               <Header />
 
               <main

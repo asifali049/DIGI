@@ -16,7 +16,7 @@ export function SectionTitle({
       </h2>
 
       {subtitle && (
-        <p className="mt-6 text-lg text-zinc-400">
+        <p className="mt-6 text-lg text-muted-foreground">
           {subtitle}
         </p>
       )}

@@ -1,23 +1,38 @@
 "use client";
 
-import Image from "next/image";
+import {
+  FaReact,
+  FaNodeJs,
+  FaDocker,
+  FaAws,
+  FaFigma,
+} from "react-icons/fa";
+import {
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiPostgresql,
+  SiMongodb,
+  SiVercel,
+  SiPython,
+  SiDjango,
+} from "react-icons/si";
+import type { IconType } from "react-icons";
 
-const logos = [
-  { name: "Google", src: "/logos/google.svg" },
-  { name: "Dell", src: "/logos/dell.svg" },
-  { name: "Figma", src: "/logos/figma.svg" },
-  { name: "github", src: "/logos/github.svg" },
-  { name: "hcl", src: "/logos/hcl.svg" },
-  { name: "Hostinger", src: "/logos/hostinger.svg" },
-  { name: "Intel", src: "/logos/intel.svg" },
-  { name: "Meta", src: "/logos/meta.svg" },
-  { name: "Nike", src: "/logos/nike.svg" },
-  { name: "Shopee", src: "/logos/shopee.svg" },
-  { name: "Shopify", src: "/logos/shopify.svg" },
-  { name: "Stripe", src: "/logos/stripe.svg" },
-  { name: "Uber", src: "/logos/uber.svg" },
-  { name: "Vercel", src: "/logos/vercel.svg" },
-  { name: "Spotify", src: "/logos/spotify.svg" },
+const logos: { name: string; icon: IconType }[] = [
+  { name: "React", icon: FaReact },
+  { name: "Next.js", icon: SiNextdotjs },
+  { name: "TypeScript", icon: SiTypescript },
+  { name: "Tailwind CSS", icon: SiTailwindcss },
+  { name: "Node.js", icon: FaNodeJs },
+  { name: "Python", icon: SiPython },
+  { name: "Django", icon: SiDjango },
+  { name: "PostgreSQL", icon: SiPostgresql },
+  { name: "MongoDB", icon: SiMongodb },
+  { name: "Docker", icon: FaDocker },
+  { name: "AWS", icon: FaAws },
+  { name: "Vercel", icon: SiVercel },
+  { name: "Figma", icon: FaFigma },
 ];
 
 const items = [...logos, ...logos];
@@ -55,31 +70,32 @@ export function LogoMarquee() {
           "
         >
           <div className="flex w-max animate-marquee gap-4 sm:gap-8 lg:gap-12">
-            {items.map((logo, index) => (
-              <div
-                key={`${logo.name}-${index}`}
-                className="flex h-20 w-32 shrink-0 items-center justify-center rounded-2xl border bg-background/60 px-4 backdrop-blur sm:h-24 sm:w-40 lg:w-44"
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.name}
-                  width={120}
-                  height={40}
-                  className="
-                    h-8
-                    w-auto
-                    object-contain
-                    opacity-70
-                    grayscale
-                    transition-all
-                    duration-300
-                    group-hover:grayscale-0
-                    group-hover:opacity-100
-                    sm:h-10
-                  "
-                />
-              </div>
-            ))}
+            {items.map((logo, index) => {
+              const Icon = logo.icon;
+
+              return (
+                <div
+                  key={`${logo.name}-${index}`}
+                  className="group flex h-20 w-32 shrink-0 items-center justify-center gap-2 rounded-2xl border border-border bg-background/60 px-4 backdrop-blur sm:h-24 sm:w-40 lg:w-44"
+                >
+                  <Icon
+                    className="
+                      h-8
+                      w-8
+                      shrink-0
+                      text-muted-foreground
+                      opacity-70
+                      transition-all
+                      duration-300
+                      group-hover:text-violet-500
+                      group-hover:opacity-100
+                      sm:h-10
+                      sm:w-10
+                    "
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

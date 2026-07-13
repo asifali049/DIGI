@@ -53,7 +53,7 @@ export const portfolio = [
     title: "Learning Management System",
     category: "Education",
     type: "SaaS",
-    image: "/images/portfolio/lms.webp",
+    image: "https://picsum.photos/seed/lms-platform/1200/800",
     description:
       "Modern LMS with courses, quizzes, assignments, certificates, and student analytics.",
     technologies: [
@@ -68,7 +68,7 @@ export const portfolio = [
     title: "Real Estate Platform",
     category: "Real Estate",
     type: "Marketplace",
-    image: "/images/portfolio/real-estate.webp",
+    image: "https://picsum.photos/seed/real-estate-portfolio/1200/800",
     description:
       "Property listing platform with maps, search, CRM, and lead management.",
     technologies: [

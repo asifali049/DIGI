@@ -41,7 +41,7 @@ const socialLinks = [
   },
   {
     icon: FaLinkedin,
-    href: "https://linkedin.com/",
+    href: "https://linkedin.com/in/asif-ali-2185b4216",
     label: "LinkedIn",
   },
   {

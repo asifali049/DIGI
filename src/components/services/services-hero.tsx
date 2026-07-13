@@ -33,6 +33,7 @@ export function ServicesHero() {
       className="relative overflow-hidden border-b"
     >
       {/* Background */}
+
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent"

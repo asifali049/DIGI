@@ -12,9 +12,9 @@ export function PricingHero() {
           </h1>
 
           <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-            No hidden fees, no surprise invoices. Pick the plan that fits
-            where your business is today — every tier is built on the same
-            engineering standards.
+            Transparent, USD pricing for websites, full stack products, and
+            e-commerce stores — built for international clients, with no
+            hidden costs.
           </p>
         </div>
       </div>

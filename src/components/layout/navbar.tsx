@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "./theme-toggle";
 import { MobileMenu } from "./mobile-menu";
@@ -14,10 +14,24 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+
+      setScrolled(currentScrollY > 20);
+
+      if (currentScrollY < 96) {
+        setHidden(false);
+      } else if (currentScrollY > lastScrollY.current) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+
+      lastScrollY.current = currentScrollY;
     };
 
     handleScroll();
@@ -31,7 +45,12 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-transform duration-300 ease-out",
+        hidden ? "-translate-y-full" : "translate-y-0"
+      )}
+    >
       <nav
         aria-label="Primary Navigation"
         className={cn(

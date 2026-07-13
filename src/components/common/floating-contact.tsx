@@ -10,12 +10,12 @@ import {
 const contacts = [
   {
     label: "WhatsApp",
-    href: "https://wa.me/919876543210",
+    href: "https://wa.me/917355769866",
     icon: MessageCircle,
   },
   {
     label: "Call",
-    href: "tel:+919876543210",
+    href: "tel:+917355769866",
     icon: Phone,
   },
   {

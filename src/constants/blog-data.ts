@@ -21,7 +21,7 @@ In this article we'll explore performance optimization,
 SEO strategies and scalable architecture.
 `,
 
-    coverImage: "/images/blog/nextjs15.jpg",
+    coverImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1600&auto=format&fit=crop",
 
     category: {
       id: "development",
@@ -48,7 +48,7 @@ SEO strategies and scalable architecture.
 
       name: "Asif Ali",
 
-      avatar: "/images/team/asif.jpg",
+      avatar: "https://i.pravatar.cc/300?img=68",
 
       role: "Founder & Full Stack Developer",
 
@@ -56,7 +56,7 @@ SEO strategies and scalable architecture.
 
       github: "https://github.com/",
 
-      linkedin: "https://linkedin.com/",
+      linkedin: "https://linkedin.com/in/asif-ali-2185b4216",
 
       website: "https://example.com",
     },
@@ -87,7 +87,7 @@ SEO strategies and scalable architecture.
         description:
           "Enterprise architecture using Next.js 15.",
 
-        image: "/images/blog/nextjs15.jpg",
+        image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1600&auto=format&fit=crop",
       },
     },
 
@@ -117,7 +117,7 @@ This article covers spacing, typography,
 color systems and accessibility.
 `,
 
-    coverImage: "/images/blog/ui-design.jpg",
+    coverImage: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1600&auto=format&fit=crop",
 
     category: {
       id: "design",
@@ -144,7 +144,7 @@ color systems and accessibility.
 
       name: "Asif Ali",
 
-      avatar: "/images/team/asif.jpg",
+      avatar: "https://i.pravatar.cc/300?img=68",
 
       role: "Founder & Full Stack Developer",
 
@@ -152,7 +152,7 @@ color systems and accessibility.
 
       github: "https://github.com/",
 
-      linkedin: "https://linkedin.com/",
+      linkedin: "https://linkedin.com/in/asif-ali-2185b4216",
 
       website: "https://example.com",
     },
@@ -181,7 +181,7 @@ color systems and accessibility.
         description:
           "Premium UI and UX best practices.",
 
-        image: "/images/blog/ui-design.jpg",
+        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1600&auto=format&fit=crop",
       },
     },
 
@@ -209,7 +209,7 @@ fast websites and structured data.
 Let's explore modern SEO strategies.
 `,
 
-    coverImage: "/images/blog/seo.jpg",
+    coverImage: "https://images.unsplash.com/photo-1571677246347-5040036b95cc?q=80&w=1600&auto=format&fit=crop",
 
     category: {
       id: "seo",
@@ -236,7 +236,7 @@ Let's explore modern SEO strategies.
 
       name: "Asif Ali",
 
-      avatar: "/images/team/asif.jpg",
+      avatar: "https://i.pravatar.cc/300?img=68",
 
       role: "Founder & Full Stack Developer",
 
@@ -244,7 +244,7 @@ Let's explore modern SEO strategies.
 
       github: "https://github.com/",
 
-      linkedin: "https://linkedin.com/",
+      linkedin: "https://linkedin.com/in/asif-ali-2185b4216",
 
       website: "https://example.com",
     },
@@ -275,7 +275,7 @@ Let's explore modern SEO strategies.
         description:
           "Modern SEO techniques for high rankings.",
 
-        image: "/images/blog/seo.jpg",
+        image: "https://images.unsplash.com/photo-1571677246347-5040036b95cc?q=80&w=1600&auto=format&fit=crop",
       },
     },
 

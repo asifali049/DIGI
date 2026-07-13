@@ -1,6 +1,4 @@
 import { Container } from "@/components/common";
-import { AuroraBackground } from "@/components/ui";
-
 import { HeroBackground } from "./hero-background";
 import { HeroContent } from "./hero-content";
 import { HeroDashboard } from "./hero-dashboard";
@@ -25,7 +23,6 @@ export function Hero() {
         xl:pb-28
       "
     >
-      <AuroraBackground />
       <HeroBackground />
 
       <Container className="relative z-10">

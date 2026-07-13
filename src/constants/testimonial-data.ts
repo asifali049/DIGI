@@ -6,7 +6,7 @@ export const testimonialData: Testimonial[] = [
     name: "John Smith",
     company: "TechNova",
     designation: "Chief Executive Officer",
-    avatar: "/images/testimonials/john.jpg",
+    avatar: "https://i.pravatar.cc/300?img=12",
 
     rating: 5,
 
@@ -33,7 +33,7 @@ export const testimonialData: Testimonial[] = [
     name: "Sarah Wilson",
     company: "PixelCraft",
     designation: "Product Manager",
-    avatar: "/images/testimonials/sarah.jpg",
+    avatar: "https://i.pravatar.cc/300?img=47",
 
     rating: 5,
 
@@ -60,7 +60,7 @@ export const testimonialData: Testimonial[] = [
     name: "Michael Brown",
     company: "NextSoft",
     designation: "Founder",
-    avatar: "/images/testimonials/michael.jpg",
+    avatar: "https://i.pravatar.cc/300?img=33",
 
     rating: 4,
 
@@ -87,7 +87,7 @@ export const testimonialData: Testimonial[] = [
     name: "Emily Davis",
     company: "Bright Studio",
     designation: "Marketing Director",
-    avatar: "/images/testimonials/emily.jpg",
+    avatar: "https://i.pravatar.cc/300?img=45",
 
     rating: 5,
 
@@ -114,7 +114,7 @@ export const testimonialData: Testimonial[] = [
     name: "David Lee",
     company: "FinCorp",
     designation: "CTO",
-    avatar: "/images/testimonials/david.jpg",
+    avatar: "https://i.pravatar.cc/300?img=14",
 
     rating: 5,
 
@@ -141,7 +141,7 @@ export const testimonialData: Testimonial[] = [
     name: "Sophia Martinez",
     company: "TravelGo",
     designation: "Operations Manager",
-    avatar: "/images/testimonials/sophia.jpg",
+    avatar: "https://i.pravatar.cc/300?img=44",
 
     rating: 4,
 
