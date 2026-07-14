@@ -1,0 +1,40 @@
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PrismaClient } from '@prisma/client';
+
+@Injectable()
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
+  private readonly logger = new Logger(PrismaService.name);
+
+  constructor(private readonly configService: ConfigService) {
+    const isDevelopment =
+      configService.get<string>('app.env') === 'development';
+
+    super({
+      datasourceUrl: configService.get<string>('database.url'),
+      errorFormat: isDevelopment ? 'pretty' : 'minimal',
+      log: isDevelopment
+        ? ['query', 'info', 'warn', 'error']
+        : ['warn', 'error'],
+    });
+  }
+
+  async onModuleInit(): Promise<void> {
+    await this.$connect();
+    this.logger.log('Database connected successfully.');
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    await this.$disconnect();
+    this.logger.log('Database connection closed.');
+  }
+}
+

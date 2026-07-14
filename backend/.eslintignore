@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Coverage
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.*
+
+# TypeScript
+*.tsbuildinfo
+
+# Prisma generated files
+src/generated/
+
+# Temporary
+tmp/
+temp/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Test reports
+jest-results/
+playwright-report/
+
+# OS
+.DS_Store
+Thumbs.db

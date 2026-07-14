@@ -1,0 +1,16 @@
+generator
+datasource
+
+Enums
+
+User
+Role
+Permission
+UserRole
+RolePermission
+RefreshToken
+Session
+
+Department
+Employee
+Client
