@@ -39,13 +39,28 @@ export function ContactForm() {
     setLoading(true);
 
     try {
-      // TODO:
-      // Replace with API call
-      console.log(values);
+      const message = [
+        "New Project Inquiry",
+        "",
+        `Name: ${values.name}`,
+        `Email: ${values.email}`,
+        values.company
+          ? `Company: ${values.company}`
+          : null,
+        `Service: ${values.service}`,
+        values.budget
+          ? `Budget: ${values.budget}`
+          : null,
+        "",
+        "Project Details:",
+        values.message,
+      ]
+        .filter(Boolean)
+        .join("\n");
 
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1500)
-      );
+      const whatsappUrl = `https://wa.me/918869939794?text=${encodeURIComponent(message)}`;
+
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
 
       reset();
     } finally {
@@ -222,8 +237,8 @@ export function ContactForm() {
               className="mt-8 w-full sm:w-auto"
             >
               {loading
-                ? "Sending..."
-                : "Send Message"}
+                ? "Opening WhatsApp..."
+                : "Send via WhatsApp"}
             </Button>
           </form>
         </div>

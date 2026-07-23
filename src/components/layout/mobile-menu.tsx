@@ -1,6 +1,6 @@
 "use client";
  
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -21,6 +21,23 @@ export function MobileMenu() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
  
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+ 
+    const handleChange = () => {
+      if (media.matches) {
+        setOpen(false);
+      }
+    };
+ 
+    handleChange();
+ 
+    media.addEventListener("change", handleChange);
+ 
+    return () =>
+      media.removeEventListener("change", handleChange);
+  }, []);
+ 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -33,8 +50,7 @@ export function MobileMenu() {
           flex h-10 w-10 items-center justify-center
           rounded-xl
           border border-border
-          bg-background-black/10
-          
+          bg-background/70
           text-foreground
           backdrop-blur-xl
           transition-all duration-300
@@ -56,7 +72,7 @@ export function MobileMenu() {
  
       <SheetContent
         side="right"
-        className="flex w-[85vw] max-w-sm flex-col gap-0 border-l border-border bg-background p-0"
+        className="flex w-[85vw] max-w-sm flex-col gap-0 border-l border-border bg-background p-0 lg:hidden"
       >
         <SheetHeader className="flex flex-row items-center justify-between border-b border-border px-6 py-5">
           <SheetTitle asChild>
@@ -119,4 +135,3 @@ export function MobileMenu() {
     </Sheet>
   );
 }
- 

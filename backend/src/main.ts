@@ -1,14 +1,13 @@
-import compression from 'compression';
-import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-
-import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
   DocumentBuilder,
   SwaggerModule,
 } from '@nestjs/swagger';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 
@@ -29,11 +28,6 @@ async function bootstrap(): Promise<void> {
   const appName = config.get<string>('APP_NAME', 'DIGI Backend');
 
   app.setGlobalPrefix(apiPrefix);
-
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: '1',
-  });
 
   app.use(
     helmet({
